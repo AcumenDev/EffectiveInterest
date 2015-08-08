@@ -1,48 +1,90 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 	<head>
-		<title>Line Chart</title>
+		<title>Депозитный калькулятор</title>
+		<link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+		<script src="libs/jquery-2.1.4.min.js"></script>
+		<script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
 		<script src="libs/Chart.js"></script>
+		<script src="ei.js"></script>
 	</head>
+	
+	<div style="width:200px">
+	
+	<div class="form-group">
+  <label for="usr">Начальная сумма</label>
+		<input type="text" name="summ" class="form-control" placeholder="Начальная сумма" aria-describedby="basic-addon1">
+		</div>
+		<div class="form-group">
+  <label for="usr">Количество месяцев</label>
+		<input type="text" name ="mounts" class="form-control" placeholder="Количество месяцев" aria-describedby="basic-addon1">
+</div>		
+		<div class="input-group">
+		 <label for="usr">Процент по депозиту</label>
+		 <div class="input-group">
+		 
+			<input type="text" name ="percent" class="form-control" placeholder="Процент по депозиту" aria-describedby="basic-addon1">
+			<span class="input-group-addon">%</span>
+		</div>
+		</div>
+		<div class="checkbox">
+		<label><input type="checkbox" name ="isCapitalization" value="1">Капитализация</label>
+		</div>
+		<button type="button" id ="calk_button" class="btn btn-success">Расчитать</button>
+	</div>
+	
 	<body>
-		<div style="width:30%">
+	<b>Сумма по процентам:</b>
+<span id='total_interest'></span>
+<br />
+<b>Конечная сумма:</b>
+<span id='maturity_value'></span>
+<br />
+		<div style="width:80%;height:20%">
 			<div>
-				<canvas id="canvas" height="450" width="600"></canvas>
+				<canvas id="canvas" ></canvas>
 			</div>
 		</div>
 	<script>
-		var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+
+	$( "#calk_button" ).click(function() {
+	var summ = parseFloat($("input[name='summ']").val());
+	var mounts = parseInt($("input[name='mounts']").val());
+	var percent = parseFloat($("input[name='percent']").val());
+	var isCapitalization = $("input[name='isCapitalization']").prop('checked');
+	
+	
+	Chart.defaults.global.multiTooltipTemplate= "<%= datasetLabel %> - <%= value %>";
+	
+	var data = 	CalculateDeposit(percent,mounts,isCapitalization,summ);
+	
+	$("#maturity_value").text(data.total);
+	$("#total_interest").text(data.total_interest);
+	
+	
 		var lineChartData = {
-			labels : ["January","February","March","April","May","June","July"],
+			labels : data.pay_percents.map(function(item) {return item['mount'];}),
 			datasets : [
 				{
-					label: "My First dataset",
+					label: "Сумма на депозите по месяцам",
 					fillColor : "rgba(220,220,220,0.2)",
 					strokeColor : "rgba(220,220,220,1)",
 					pointColor : "rgba(220,220,220,1)",
 					pointStrokeColor : "#fff",
 					pointHighlightFill : "#fff",
 					pointHighlightStroke : "rgba(220,220,220,1)",
-					data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-				},
-				{
-					label: "My Second dataset",
-					fillColor : "rgba(151,187,205,0.2)",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "rgba(151,187,205,1)",
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : "rgba(151,187,205,1)",
-					data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+					
+					data : data.pay_percents.map(function(item) {return item['total'];})
 				}
 			]
-		}
-	window.onload = function(){
+		};
+
 		var ctx = document.getElementById("canvas").getContext("2d");
 		window.myLine = new Chart(ctx).Line(lineChartData, {
 			responsive: true
 		});
-	}
+		});
+	
 	</script>
 	</body>
 </html>
