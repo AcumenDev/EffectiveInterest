@@ -41,17 +41,31 @@
 <span id='maturity_value'></span>
 <br />
 		<div style="width:600px;height:400px">
+		<h4>Сумма на депозите по месяцам</h4>
 			<div>
 				<canvas id="canvas" ></canvas>
 			</div>
 		</div>
 	<script>
+	
+	$(function() {
+	$("input[name='summ']").val(localStorage.getItem("summ"));
+	$("input[name='mounts']").val(localStorage.getItem("mounts"));
+	$("input[name='percent']").val(localStorage.getItem("percent"));
+	$("input[name='isCapitalization']").prop("checked",("true" == localStorage.getItem("isCapitalization")));
+});
+	
 
 	$( "#calk_button" ).click(function() {
 	var summ = parseFloat($("input[name='summ']").val());
 	var mounts = parseInt($("input[name='mounts']").val());
 	var percent = parseFloat($("input[name='percent']").val());
 	var isCapitalization = $("input[name='isCapitalization']").prop('checked');
+	localStorage.setItem("summ",summ);
+	localStorage.setItem("mounts",mounts);
+	localStorage.setItem("percent",percent);
+	localStorage.setItem("isCapitalization",isCapitalization);
+	
 	
 	
 	Chart.defaults.global.multiTooltipTemplate= "<%= datasetLabel %> - <%= value %>";
