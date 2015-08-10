@@ -42,8 +42,8 @@
 <br />
 		<div style="width:600px;height:400px">
 		<h4>Сумма на депозите по месяцам</h4>
-			<div>
-				<canvas id="canvas" ></canvas>
+			<div id="canvashome">
+				<canvas id="canvas"></canvas>
 			</div>
 		</div>
 	<script>
@@ -93,6 +93,14 @@
 			]
 		};
 
+		var d = document.getElementById("canvashome");
+		var d_nested = document.getElementById("canvas");
+		var throwawayNode = d.removeChild(d_nested);
+		
+		var canvas = document.createElement("canvas");
+		canvas.setAttribute("id", "canvas");
+		document.getElementById('canvashome').appendChild(canvas);
+		
 		var ctx = document.getElementById("canvas").getContext("2d");
 		window.myLine = new Chart(ctx).Line(lineChartData, {
 			responsive: true
