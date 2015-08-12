@@ -22,6 +22,8 @@ $(function() {
         var data = CalculateDeposit(percent, mounts, isCapitalization, summ, add_summ);
         $("#maturity_value").text(data.total);
         $("#total_interest").text(data.total_interest);
+		$("#effectiv_percent").text(data.effectiv_percent);
+		
         var lineChartData = {
             labels: data.pay_percents.map(function(item) {
                 return item['mount'];
