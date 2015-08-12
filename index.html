@@ -1,112 +1,51 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Депозитный калькулятор</title>
-		<link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
-		<script src="libs/jquery-2.1.4.min.js"></script>
-		<script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-		<script src="libs/Chart.js"></script>
-		<script src="ei.js"></script>
-	</head>
-	
-	<div style="width:200px">
-	
-	<div class="form-group">
-  <label for="usr">Начальная сумма</label>
-		<input type="text" name="summ" class="form-control" placeholder="Начальная сумма" aria-describedby="basic-addon1">
-		</div>
-		<div class="form-group">
-  <label for="usr">Количество месяцев</label>
-		<input type="text" name ="mounts" class="form-control" placeholder="Количество месяцев" aria-describedby="basic-addon1">
-</div>		
-		<div class="input-group">
-		 <label for="usr">Процент по депозиту</label>
-		 <div class="input-group">
-		 
-			<input type="text" name ="percent" class="form-control" placeholder="Процент по депозиту" aria-describedby="basic-addon1">
-			<span class="input-group-addon">%</span>
-		</div>
-		</div>
-		<div class="checkbox">
-		<label><input type="checkbox" name ="isCapitalization" value="1">Капитализация</label>
-		</div>
-		<button type="button" id ="calk_button" class="btn btn-success">Расчитать</button>
-	</div>
-	
-	<body>
-	<b>Сумма по процентам:</b>
-<span id='total_interest'></span>
-<br />
-<b>Конечная сумма:</b>
-<span id='maturity_value'></span>
-<br />
-		<div style="width:600px;height:400px">
-		<h4>Сумма на депозите по месяцам</h4>
-			<div id="canvashome">
-				<canvas id="canvas"></canvas>
-			</div>
-		</div>
-	<script>
-	
-	$(function() {
-	$("input[name='summ']").val(localStorage.getItem("summ"));
-	$("input[name='mounts']").val(localStorage.getItem("mounts"));
-	$("input[name='percent']").val(localStorage.getItem("percent"));
-	$("input[name='isCapitalization']").prop("checked",("true" == localStorage.getItem("isCapitalization")));
-});
-	
-
-	$( "#calk_button" ).click(function() {
-	var summ = parseFloat($("input[name='summ']").val());
-	var mounts = parseInt($("input[name='mounts']").val());
-	var percent = parseFloat($("input[name='percent']").val());
-	var isCapitalization = $("input[name='isCapitalization']").prop('checked');
-	localStorage.setItem("summ",summ);
-	localStorage.setItem("mounts",mounts);
-	localStorage.setItem("percent",percent);
-	localStorage.setItem("isCapitalization",isCapitalization);
-	
-	
-	
-	Chart.defaults.global.multiTooltipTemplate= "<%= datasetLabel %> - <%= value %>";
-	
-	var data = 	CalculateDeposit(percent,mounts,isCapitalization,summ);
-	
-	$("#maturity_value").text(data.total);
-	$("#total_interest").text(data.total_interest);
-	
-	
-		var lineChartData = {
-			labels : data.pay_percents.map(function(item) {return item['mount'];}),
-			datasets : [
-				{
-					label: "Сумма на депозите по месяцам",
-					fillColor : "rgba(220,220,220,0.2)",
-					strokeColor : "rgba(220,220,220,1)",
-					pointColor : "rgba(220,220,220,1)",
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : "rgba(220,220,220,1)",
-					
-					data : data.pay_percents.map(function(item) {return item['total'];})
-				}
-			]
-		};
-
-		var d = document.getElementById("canvashome");
-		var d_nested = document.getElementById("canvas");
-		var throwawayNode = d.removeChild(d_nested);
-		
-		var canvas = document.createElement("canvas");
-		canvas.setAttribute("id", "canvas");
-		document.getElementById('canvashome').appendChild(canvas);
-		
-		var ctx = document.getElementById("canvas").getContext("2d");
-		window.myLine = new Chart(ctx).Line(lineChartData, {
-			responsive: true
-		});
-		});
-	
-	</script>
-	</body>
+    <head>
+        <title>Депозитный калькулятор</title>
+        <link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+        <script src="libs/jquery-2.1.4.min.js"></script>
+        <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+        <script src="libs/Chart.js"></script>
+        <script src="ei.js"></script>
+        <script src="gui.js"></script>
+    </head>
+    <div style="width:200px">
+        <div class="form-group">
+            <label for="usr">Начальная сумма</label>
+            <input type="text" name="summ" class="form-control" placeholder="Начальная сумма" aria-describedby="basic-addon1">
+        </div>
+        <div class="form-group">
+            <label for="usr">Количество месяцев</label>
+            <input type="text" name ="mounts" class="form-control" placeholder="Количество месяцев" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group">
+            <label for="usr">Процент по депозиту</label>
+            <div class="input-group">
+                <input type="text" name ="percent" class="form-control" placeholder="Процент по депозиту" aria-describedby="basic-addon1">
+                <span class="input-group-addon">%</span>
+            </div>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" name ="isCapitalization" value="1">Капитализация</label>
+        </div>
+         <div class="form-group">
+            <label for="usr">Ежемесячное пополнение</label>
+            <input type="text" name="add_summ" class="form-control" placeholder="" aria-describedby="basic-addon1">
+        </div>
+        <button type="button" id ="calk_button" class="btn btn-success">Расчитать</button>
+    </div>
+    <body>
+        <b>Сумма по процентам:</b>
+        <span id='total_interest'></span>
+        <br />
+        <b>Конечная сумма:</b>
+        <span id='maturity_value'></span>
+        <br />
+        <div style="width:600px;height:400px">
+            <h4>Сумма на депозите по месяцам</h4>
+            <div id="canvashome">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+    </body>
 </html>
