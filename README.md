@@ -6,3 +6,6 @@
  2. mount             - количество месяцев
  3. capitalization    - есть ли капитализация
  4. first_payment     - сумма вклада
+
+
+[Посмотреть можно здесь](http://acumendev.github.io/EffectiveInterest)
