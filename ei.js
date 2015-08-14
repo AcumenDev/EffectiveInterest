@@ -22,14 +22,15 @@ function CalculateDeposit(percent_In_Year, mount, capitalization, first_payment,
 		total_interest += pay_percent;
         total = total + pay_percent;
         console.log("Платеж по процентам в ", i, " месяце равен ", pay_percent)
-        result.pay_percents.push({
-            'mount': i,
-            'total': total.toFixed(2)
-        });
+        
         if (mount > 1) {
             total += add_summ;
 			all_made+= add_summ;
         }
+		result.pay_percents.push({
+            'mount': i,
+            'total': total.toFixed(2)
+        });
     }
     var effectiv_percent = (total - all_made) / (all_made * 0.01);
     console.log("Сумма на момент закрытия вклада:", total)
