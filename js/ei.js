@@ -10,9 +10,9 @@ function CalculateDeposit(percent_In_Year, mount, capitalization, first_payment,
     var total_interest = 0;
     var all_made = first_payment;
 
-    var result = new Object();
+    var result = {};
     console.log("Сумма на момент открытия вклада: ", total, " процент по вкладу: ", percent_In_Year, "%", "Ежемесячная процентная ставка:", percent_In_Mount, "%", "капитализация :", capitalization);
-    result.pay_percents = new Array();
+    result.pay_percents = [];
     result.pay_percents.push({
         'mount': 0,
         'total': first_payment.toFixed(2)
