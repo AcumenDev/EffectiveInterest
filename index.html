@@ -10,8 +10,11 @@
     <script src="js/ei.js"></script>
     <script src="js/gui.js"></script>
     <script src="js/ga.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="js/datamanager.js"></script>
 </head>
 <body>
+    <li><a data-toggle="tab" href="#iis">ИИС</a></li>
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <ul class="nav navbar-nav">
@@ -33,6 +36,33 @@
   				<span class="input-group-addon">.руб</span>
 			</div>
 	</div>
+    </div>
+
+    <div id="iis" class="tab-pane fade ">
+        <h3>Индивидуальный инвестиционный счет</h3>
+
+        <div class="form-group">
+            <div class="input-group">
+                <label>Налоговый вычет</label>
+
+                <div class="input-group">
+                    <input type="text" name="mounts" class="form-control" placeholder="Проценты"
+                           aria-describedby="basic-addon1" value="13">
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+
+
+            <div class="input-group">
+                <label>Инвестиционная доходность</label>
+
+                <div class="input-group">
+                    <input type="text" name="percent" class="form-control" placeholder="Инвестиционная доходность"
+                           aria-describedby="basic-addon1">
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+        </div>
 
 </body>
 </html>

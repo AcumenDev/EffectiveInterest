@@ -1,5 +1,5 @@
 $(function () {
-    loadFromLocalStorege();
+    loadPageFromLocalStorage("section_effective_interest");
     $("#calk_button").click(calculate);
 });
 
@@ -9,12 +9,6 @@ function calculate() {
     var percent = parseFloat($("input[name='percent']").val());
     var isCapitalization = $("input[name='isCapitalization']").prop('checked');
     var add_summ = parseFloat($("input[name='add_summ']").val());
-
-    localStorage.setItem("summ", summ);
-    localStorage.setItem("mounts", mounts);
-    localStorage.setItem("percent", percent);
-    localStorage.setItem("isCapitalization", isCapitalization);
-    localStorage.setItem("add_summ", add_summ);
 
     if (isNaN(add_summ)) {
         add_summ = 0;
@@ -53,15 +47,6 @@ function calculate() {
     window.myLine = new Chart(ctx).Line(lineChartData, {
         responsive: true
     });
-}
 
-function loadFromLocalStorege() {
-    $("input[name='summ']").val(localStorage.getItem("summ"));
-    $("input[name='mounts']").val(localStorage.getItem("mounts"));
-    $("input[name='percent']").val(localStorage.getItem("percent"));
-    $("input[name='isCapitalization']").prop("checked", ("true" == localStorage.getItem("isCapitalization")));
-
-    if (!isNaN(localStorage.getItem("add_summ"))) {
-        $("input[name='add_summ']").val(localStorage.getItem("add_summ"));
-    }
+    savePageToLocalStorage("section_effective_interest");
 }
