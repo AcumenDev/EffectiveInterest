@@ -3,7 +3,7 @@
 //заполняем категории из бд
 function setCatigories()
 {
-	var sel = document.getElementById('searchDepartments');
+	var sel = document.getElementById('spend_category');
 	var opt = null;
 
 	var catigories = [];
@@ -15,4 +15,10 @@ function setCatigories()
     opt.innerHTML = catigories[i].name;
     sel.appendChild(opt);
 }
+}
+
+//будем получать список трат для конкретной даты
+function getSpendsForDate()
+{
+	
 }
