@@ -12,6 +12,7 @@
     <script src="js/ga.js"></script>
     <script src="js/tabs.js"></script>
     <script src="js/datamanager.js"></script>
+	<script src="js/ct.js"></script>
 </head>
 <body>
     <li><a data-toggle="tab" href="#iis">ИИС</a></li>
@@ -35,11 +36,16 @@
                            			aria-describedby="basic-addon1">
   				<span class="input-group-addon">.руб</span>
 			</div>
+		<label>Выберите категорию затрат:</label>
+			<select id="spend_category">
+			</select>
+		
 		<label>Ведите описание затраченной суммы:</label>
 			<div class="input-group">
 				<input type="text" name="spendDescription" class="form-control" placeholder="Описание...">	
-			</div>
+			</div>			
 	</div>
+		<button type="button" id="add_button" class="btn btn-success">Добавить</button>
     </div>
 
     <div id="iis" class="tab-pane fade ">
