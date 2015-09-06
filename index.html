@@ -9,6 +9,8 @@
     <script src="libs/Chart.js"></script>
     <script src="js/ei.js"></script>
     <script src="js/gui.js"></script>
+    <script src="js/iis_gui.js"></script>
+    <script src="js/iis.js"></script>
     <script src="js/ga.js"></script>
     <script src="js/tabs.js"></script>
     <script src="js/datamanager.js"></script>
@@ -83,7 +85,7 @@
 
         <div class="form-group">
             <div class="input-group">
-                <label>Налоговый вычет</label>
+                <label>Доход от государства</label>
 
                 <div class="input-group">
                     <input type="text" name="mounts" class="form-control" placeholder="Проценты"
@@ -100,6 +102,116 @@
                     <input type="text" name="percent" class="form-control" placeholder="Инвестиционная доходность"
                            aria-describedby="basic-addon1">
                     <span class="input-group-addon">%</span>
+                </div>
+            </div>
+            <br/>
+
+            <table class="table table-bordered ">
+                <tr>
+                    <td>Годы</td>
+                    <td>Январь</td>
+                    <td>Февраль</td>
+                    <td>Март</td>
+                    <td>Апрель</td>
+                    <td>Май</td>
+                    <td>Июнь</td>
+                    <td>Июль</td>
+                    <td>Август</td>
+                    <td>Сентябрь</td>
+                    <td>Октябрь</td>
+                    <td>Ноябрь</td>
+                    <td>Декабрь</td>
+                </tr>
+                <tr>
+                    <td>Первый</td>
+                    <td><input type="text" name="year_1_mount_1" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_2" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_3" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_4" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_5" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_6" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_7" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_8" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_9" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_10" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_11" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_1_mount_12" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                </tr>
+                <tr>
+                    <td>Второй</td>
+                    <td><input type="text" name="year_2_mount_1" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_2" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_3" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_4" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_5" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_6" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_7" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_8" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_9" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_10" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_11" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_2_mount_12" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                </tr>
+                <tr>
+                    <td>Третий</td>
+                    <td><input type="text" name="year_3_mount_1" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_2" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_3" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_4" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_5" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_6" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_7" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_8" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_9" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_10" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_11" class="form-control"
+                               aria-describedby="basic-addon1"></td>
+                    <td><input type="text" name="year_3_mount_12" class="form-control"
+                               aria-describedby="basic-addon1">
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <button type="button" class="btn btn-success" id="calk_button_iis">Расчитать</button>
+            <br/>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Расчет</h3>
                 </div>
             </div>
         </div>
