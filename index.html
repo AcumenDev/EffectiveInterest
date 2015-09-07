@@ -27,25 +27,24 @@
 </nav>
 
 	<div style="width:200px">
-            <h4> Today date will be here </h4>
-	</div>
-	<div class="input-group">
-		<label>Введеите затраченную сумму:</label>
-			<div class="input-group">
-	  			<input type="text" name="spendSum" class="form-control" placeholder="Расход..."
+	<input type="text" id="spendDate" placeholder="Выберите дату..." />
+		<div class="input-group">
+			<label>Введеите затраченную сумму:</label>
+				<div class="input-group">
+					<input type="text" name="spendSum" class="form-control" placeholder="Расход..."
                            			aria-describedby="basic-addon1">
-  				<span class="input-group-addon">.руб</span>
-			</div>
-		<label>Выберите категорию затрат:</label>
-			<div class="input-group">
-				<select id="spend_category"></select>		
-			</div>
-		<label>Ведите описание затраченной суммы:</label>
-			<div class="input-group">
-				<input type="text" name="spendDescription" class="form-control" placeholder="Описание...">	
-			</div>			
-	</div>
-		<button type="button" id="add_button" class="btn btn-success">Добавить</button>
+					<span class="input-group-addon">.руб</span>
+				</div>
+			<label>Выберите категорию затрат:</label>
+				<div class="input-group">
+					<select id="spend_category"></select>		
+				</div>
+			<label>Ведите описание затраченной суммы:</label>
+				<div class="input-group">
+					<input type="text" name="spendDescription" class="form-control" placeholder="Описание...">	
+				</div>			
+		</div>
+			<button type="button" id="add_button" class="btn btn-success">Добавить</button>
     </div>
 
     <div id="iis" class="tab-pane fade ">

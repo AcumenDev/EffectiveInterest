@@ -1,24 +1,29 @@
-
-
-//заполняем категории из бд
-function setCatigories()
-{
-	var sel = document.getElementById('spend_category');
-	var opt = null;
-
-	var catigories = [];
+$(function() {
+	var spends = {}
+	spends.init = {}
+	spends.init.db = {}
 	
-	for(i = 0; i<catigories.length; i++) { 
+	// Для удобства помещаем функцию в глобальную переменную
+	spends.init.open = function(){
+		spends.init.db = openDatabase("spends","1.0","траты",1024*1024*5);
+		// название БД, версия, описание, размер
+	}
 
-    opt = document.createElement('option');
-    opt.value = catigories[i].id;
-    opt.innerHTML = catigories[i].name;
-    sel.appendChild(opt);
-}
-}
+	spends.init.createTable = function(){
+		var database = spends.init.db;
+		database.transaction(function(tx){
+			tx.executeSql("CREATE TABLE IF NOT EXISTS ызтвы (ID INTEGER PRIMARY KEY ASC,todo_item TEXT,due_date VARCHAR)", []);
+		});
+	}
 
-//будем получать список трат для конкретной даты
-function getSpendsForDate()
-{
-	
-}
+// Календарь для выбора даты
+	$('#spendDate').datepicker({
+		"dateFormat":"dd.mm.yy",
+		"dayNamesMin":["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],
+		"dayNames":["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],
+		"firstDay":"1",
+		"monthNames":["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+		"nextText":"Следующий",
+		"prevText":"Предыдущий"
+		});
+});
