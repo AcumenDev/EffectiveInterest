@@ -17,7 +17,7 @@ $(function() {
 	}
 
 // Календарь для выбора даты
-	$('#spendDate').datepicker({
+/*	$('#spendDate').datepicker({
 		"dateFormat":"dd.mm.yy",
 		"dayNamesMin":["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],
 		"dayNames":["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],
@@ -25,5 +25,14 @@ $(function() {
 		"monthNames":["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
 		"nextText":"Следующий",
 		"prevText":"Предыдущий"
-		});
+		});*/
+
+
+	$("#section_expense_report").find("input[name='spendDate']").datepicker({
+		todayBtn: true,
+		language: "ru",
+		autoclose: true,
+		todayHighlight: true,
+		toggleActive: true
+	});
 });
