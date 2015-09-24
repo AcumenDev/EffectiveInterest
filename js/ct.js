@@ -13,7 +13,7 @@ $(function() {
 
 	spends.init.createSpendsTable = function(){
 		spends.init.db.transaction(function(tx){
-			tx.executeSql("CREATE TABLE IF NOT EXISTS spends (spend_id int NOT NULL PRIMARY KEY, date Date,sum float,description text,FOREIGN KEY (category_id) REFERENCES categories(category_id))");
+			tx.executeSql("CREATE TABLE IF NOT EXISTS spends (spend_id int NOT NULL PRIMARY KEY, date Date,sum float,description text, category_id REFERENCES categories(category_id))");
 		});
 	}
 
