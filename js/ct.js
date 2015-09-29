@@ -1,11 +1,9 @@
 $(function() {
-
 	
 	//namespace
 	var spendsDataManager = {}
 	spendsDataManager.init = {}
-	spendsDataManager.db={}
-	
+	spendsDataManager.db={}	
 
 	// Для удобства помещаем функцию в глобальную переменную
 	spendsDataManager.openDB = function(){
@@ -27,7 +25,7 @@ $(function() {
 
 	spendsDataManager.setTestCategories = function(){
 		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("INSERT INTO categories (category) VALUES ('продукты')");
+			tx.executeSql("INSERT INTO categories (category_id,category) VALUES (1,'продукты')");
 		});
 	}
 
@@ -36,16 +34,38 @@ $(function() {
 			tx.executeSql("INSERT INTO spends (spend_id,date,sum,description,category_id) VALUES (1,20150924,500.0,'покупочки',1)");
 		});
 	}
+	
+	spendsDataManager.getCategories = function(){
+		spendsDataManager.db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM categories",[],function(tx,results){				
+				return results;
+			});			
+		});
+	}
 		
 	spendsDataManager.init = function(){
 		spendsDataManager.openDB();
 		spendsDataManager.createCategoriesTable();
 		spendsDataManager.createSpendsTable();	
+		/*
 		spendsDataManager.setTestCategories();
-		spendsDataManager.setTestSpends();		
+		spendsDataManager.setTestSpends();			
+		*/
 	}
 	
+	var spendsUI = {}
 
+	spendsUI.setCategoriesSelect = function()
+	{
+		//TODO Разобраться почему categories undefined
+		var categories = spendsDataManager.getCategories();
+		categories.forEach(function(category,i,categories){
+			$("#spendСategory").append(
+				$('<option value="'+category.category_id+'">'+category.text+'</option>')
+			);
+		});
+	}
+	
 	// Календарь для выбора даты
 	$("#spendDate").datepicker({
 		todayBtn: true,
@@ -54,16 +74,20 @@ $(function() {
 		todayHighlight: true,
 		toggleActive: true
 	});
-
+		
 	$("#addCategory_button").click(function(){
 		
 		var newCategory = prompt("Название категории: ", "");
+			if (newCategory != null)
+			{
 				spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("INSERT INTO categories (category) VALUES (?)",[newCategory]);
-		});
-		
+					tx.executeSql("INSERT INTO categories (category) VALUES (?)",[newCategory]);
+					});
+				alert("Добавлено!" + newCategory);
+			}		
 	})
 	
-	spendsDataManager.init();
-
+	spendsDataManager.init();	
+	
+	spendsUI.setCategoriesSelect();
 });
