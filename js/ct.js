@@ -36,11 +36,7 @@ $(function() {
 	}
 	
 	spendsDataManager.getCategories = function(){
-		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("SELECT * FROM categories",[],function(tx,results){				
-				return results;
-			});			
-		});
+		
 	}
 		
 	spendsDataManager.init = function(){
@@ -57,17 +53,21 @@ $(function() {
 
 	spendsUI.setCategoriesSelect = function()
 	{
-		//TODO Разобраться почему categories undefined
-		var categories = spendsDataManager.getCategories();
-		categories.forEach(function(category,i,categories){
-			$("#spendСategory").append(
-				$('<option value="'+category.category_id+'">'+category.text+'</option>')
-			);
-		});
+		spendsDataManager.db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM categories",[],function(tx,categories){
+				$("#section_expense_report").find("select[name='spendСategory']").empty().append(
+						$('<option selected="selected" disabled="disabled">-- Select category --</option>'));
+				for (var i=0; i < categories.rows.length; i++) {
+					$("#section_expense_report").find("select[name='spendСategory']").append(
+						$('<option value="'+categories.rows.item(i).category_id+'">'+categories.rows.item(i).category+'</option>')
+					);
+				}
+			});			
+		});	
 	}
 	
 	// Календарь для выбора даты
-	$("#spendDate").datepicker({
+	$("#section_expense_report").find("input[name='spendDate']").datepicker({
 		todayBtn: true,
 		language: "ru",
 		autoclose: true,
@@ -75,7 +75,7 @@ $(function() {
 		toggleActive: true
 	});
 		
-	$("#addCategory_button").click(function(){
+	$("#section_expense_report").find("button[name='addCategoryButton']").click(function(){
 		
 		var newCategory = prompt("Название категории: ", "");
 			if (newCategory != null)
@@ -83,8 +83,9 @@ $(function() {
 				spendsDataManager.db.transaction(function(tx){
 					tx.executeSql("INSERT INTO categories (category) VALUES (?)",[newCategory]);
 					});
-				alert("Добавлено!" + newCategory);
-			}		
+				alert("Добавлено!" + newCategory);				
+			}	
+		spendsUI.setCategoriesSelect();			
 	})
 	
 	spendsDataManager.init();	
