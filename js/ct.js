@@ -76,15 +76,20 @@ $(function() {
 	});
 		
 	$("#section_expense_report").find("button[name='addCategoryButton']").click(function(){
+		$("#addCategoryModal").modal();
+	})
+	
+	$("#addCategoryModal").find("button[name='addCategory']").click(function(){
 		
-		var newCategory = prompt("Название категории: ", "");
-			if (newCategory != null)
-			{
-				spendsDataManager.db.transaction(function(tx){
-					tx.executeSql("INSERT INTO categories (category) VALUES (?)",[newCategory]);
-					});
-				alert("Добавлено!" + newCategory);				
-			}	
+		var newCategory = $("#addCategoryModal").find("input[name='newCategoryName']").val();
+		if (newCategory != null)
+		{
+			spendsDataManager.db.transaction(function(tx){
+				tx.executeSql("INSERT INTO categories (category) VALUES (?)",[newCategory]);
+			});
+			alert("Добавлено: " + newCategory+"!");				
+		}				
+		$("#addCategoryModal").modal('hide');
 		spendsUI.setCategoriesSelect();			
 	})
 	
