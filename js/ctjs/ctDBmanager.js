@@ -33,10 +33,32 @@
 		});
 	}
 	
-	spendsDataManager.getCategories = function(){
-		
+	spendsDataManager.addSpendToDb= function(){}
+	
+	spendsDataManager.getCategories = function(fillCategoriesUICallback){
+
+		spendsDataManager.db.readTransaction(function(tx){
+			tx.executeSql("SELECT * FROM categories",[],function(tx,categories){
+				var result = [];
+				for(var i=0; i<categories.rows.length; i++){
+					var row = categories.rows.item(i)
+					result[i] = {	
+						id: row.category_id,
+						categoryName: row.category
+					}
+				}
+				fillCategoriesUICallback(result);
+			});
+		});	
 	}
-		
+
+	spendsDataManager.AddSpend = function(date,sum,category,description){
+
+		//TODO реализовать сохранение в БД
+
+	}
+
+			
 	spendsDataManager.init = function(){
 		spendsDataManager.openDB();
 		spendsDataManager.createCategoriesTable();
