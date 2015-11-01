@@ -4,7 +4,7 @@
 	spendsUI.fillCategoriesSelect = function(categories){
 
 		$("#section_expense_report").find("select[name='spendСategory']").empty().append(
-		$('<option selected="selected" disabled="disabled">-- Select category --</option>'));
+		$('<option selected="selected" disabled="disabled">-Select category-</option>'));
 
 		for (var i=0; i < categories.length; i++) {
 			$("#section_expense_report").find("select[name='spendСategory']").append(
@@ -17,7 +17,7 @@
 		spendsDataManager.getCategories(spendsUI.fillCategoriesSelect);
 	}
 	
-	spendsUI.setDatapicker = function(){
+	spendsUI.setDatepicker = function(){
 	// Календарь для выбора даты
 	$("#section_expense_report").find("input[name='spendDate']").datepicker({
 		todayBtn: true,
@@ -50,18 +50,36 @@
 
 	spendsUI.addSpend = function(){
 		var date = $("#section_expense_report").find($("input[name='spendDate']")).val();
-		var summ = $("#section_expense_report").find($("input[name='spendSum']")).val();
+		var sum = $("#section_expense_report").find($("input[name='spendSum']")).val();
 		var category= $("#section_expense_report").find($("select[name='spendСategory']")).find(":selected").val();
 		var description =  $("#section_expense_report").find($("input[name='spendDescription']")).val();
 
-		//TODO тут будет валидация
+		if (!date || !sum || !ca tegory)
+		{
+			$("#section_expense_report").find($("input[name='spendDate']")).css('border-color','red');
+            $("#section_expense_report").find($("input[name='spendSum']")).css('border-color','red');
+            $("#section_expense_report").find($("select[name='spendСategory']")).css('border-color','red');
+            alert("Заполните все поля!");
+			return;
+		}
 
-		spendsDataManager.AddSpend(date,sum,category,description);
+		spendsDataManager.addSpend(date,sum,category,description);
+
+		$("#section_expense_report").find($("input[name='spendDate']")).css('border-color','');
+        $("#section_expense_report").find($("input[name='spendSum']")).css('border-color','');
+        $("#section_expense_report").find($("select[name='spendСategory']")).css('border-color','');
+
+		$("#section_expense_report").find($("input[name='spendDate']")).val('');
+  		$("#section_expense_report").find($("input[name='spendSum']")).val('');
+  		//не работает для select хз атрибут выставляется а выбран все равно другой option
+   		$("#section_expense_report").find($("select[name='spendСategory']")).find("option [value='-Select category-']").prop('selected',true);
+   		$("#section_expense_report").find($("input[name='spendDescription']")).val('');
 	}
 
 	spendsUI.init = function(){
 		spendsUI.setCategories();
-		spendsUI.setDatapicker();
+		spendsUI.setDatepicker();
+
 		$("#section_expense_report").find("button[name='addCategoryButton']").bind("click",spendsUI.showCategoryAddModal);
 		$("#addCategoryModal").find("button[name='addCategory']").bind("click",spendsUI.addCategoryFromModal);
 		$("#section_expense_report").find("button[name='addSpendButton']").bind("click",spendsUI.addSpend);

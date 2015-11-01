@@ -52,9 +52,13 @@
 		});	
 	}
 
-	spendsDataManager.AddSpend = function(date,sum,category,description){
+	spendsDataManager.addSpend = function(date,sum,category,description){
 
-		//TODO реализовать сохранение в БД
+		spendsDataManager.db.transaction(function(tx){
+			tx.executeSql("INSERT INTO spends (sum,description,category_id,date) values (?,?,?,?)",[sum,description,category,date],function(){
+			alert("Добавлено!");
+			})
+		});
 
 	}
 
