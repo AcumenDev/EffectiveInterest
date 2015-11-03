@@ -54,7 +54,7 @@
 		var category= $("#section_expense_report").find($("select[name='spendСategory']")).find(":selected").val();
 		var description =  $("#section_expense_report").find($("input[name='spendDescription']")).val();
 
-		if (!date || !sum || !ca tegory)
+		if (!date || !sum || !category)
 		{
 			$("#section_expense_report").find($("input[name='spendDate']")).css('border-color','red');
             $("#section_expense_report").find($("input[name='spendSum']")).css('border-color','red');
