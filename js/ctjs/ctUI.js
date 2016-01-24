@@ -12,7 +12,11 @@
 			);
 		}
 	}
-	
+
+	spendsUI.fillRecentSpends = function(){
+		//TODO дописать заполнение недавних трат (за сегодняшний день)
+	}
+
 	spendsUI.setCategories = function(){
 		spendsDataManager.getCategories(spendsUI.fillCategoriesSelect);
 	}
@@ -83,4 +87,4 @@
 		$("#section_expense_report").find("button[name='addCategoryButton']").bind("click",spendsUI.showCategoryAddModal);
 		$("#addCategoryModal").find("button[name='addCategory']").bind("click",spendsUI.addCategoryFromModal);
 		$("#section_expense_report").find("button[name='addSpendButton']").bind("click",spendsUI.addSpend);
-	}	
+	}
