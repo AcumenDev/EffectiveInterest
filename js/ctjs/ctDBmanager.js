@@ -62,11 +62,10 @@
 
 	}
 
-	spendsDataManager.getSpends = function(dateFrom dateTo,fillRecentSpendsUICallback){
+	spendsDataManager.getSpends = function(dateFrom,dateTo,fillRecentSpendsUICallback){
 		spendsDataManager.db.readTransaction(function(tx){
         			//TODO написать извлечение из базы записей для определенного периода
-        			});
-        		});
+        			});        		
 	}
 
 	spendsDataManager.init = function(){
