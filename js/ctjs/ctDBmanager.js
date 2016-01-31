@@ -11,30 +11,28 @@
 
 	spendsDataManager.createSpendsTable = function(){
 		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("CREATE TABLE IF NOT EXISTS spends (spend_id INTEGER PRIMARY KEY ASC, date Date,sum float,description text, category_id REFERENCES categories(category_id))");
+			tx.executeSql("CREATE TABLE IF NOT EXISTS spends (id INTEGER PRIMARY KEY AUTOINCREMENT, spendDate INTEGER NOT NULL,sum float NOT NULL,description text, category_id REFERENCES categories(category_id) NOT NULL)");
 		});
 	}
 
 	spendsDataManager.createCategoriesTable = function(){
 		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("CREATE TABLE IF NOT EXISTS categories (category_id INTEGER PRIMARY KEY ASC, category text)");
+			tx.executeSql("CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category text NOT NULL)");
 		});
 	}
 
 	spendsDataManager.setTestCategories = function(){
 		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("INSERT INTO categories (category_id,category) VALUES (1,'продукты')");
+			tx.executeSql("INSERT INTO categories (id,category) VALUES (1,'продукты')");
 		});
 	}
 
 	spendsDataManager.setTestSpends = function(){
 		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("INSERT INTO spends (spend_id,date,sum,description,category_id) VALUES (1,20150924,500.0,'покупочки',1)");
+			tx.executeSql("INSERT INTO spends (id,spendDate,sum,description,category_id) VALUES (1,20150924,500.0,'покупочки',1)");
 		});
 	}
-	
-	spendsDataManager.addSpendToDb= function(){}
-	
+
 	spendsDataManager.getCategories = function(fillCategoriesUICallback){
 
 		spendsDataManager.db.readTransaction(function(tx){
@@ -43,7 +41,7 @@
 				for(var i=0; i<categories.rows.length; i++){
 					var row = categories.rows.item(i)
 					result[i] = {	
-						id: row.category_id,
+						id: row.id,
 						categoryName: row.category
 					}
 				}
@@ -55,7 +53,7 @@
 	spendsDataManager.addSpend = function(date,sum,category,description){
 
 		spendsDataManager.db.transaction(function(tx){
-			tx.executeSql("INSERT INTO spends (sum,description,category_id,date) values (?,?,?,?)",[sum,description,category,date],function(){
+			tx.executeSql("INSERT INTO spends (sum,description,category_id,spendDate) values (?,?,?,?)",[sum,description,category,date],function(){
 			alert("Добавлено!");
 			})
 		});

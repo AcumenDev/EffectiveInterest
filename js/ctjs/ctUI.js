@@ -53,7 +53,7 @@
 	}
 
 	spendsUI.addSpend = function(){
-		var date = $("#section_expense_report").find($("input[name='spendDate']")).val();
+		var date = Date.parse($("#section_expense_report").find($("input[name='spendDate']")).val())/1000;
 		var sum = $("#section_expense_report").find($("input[name='spendSum']")).val();
 		var category= $("#section_expense_report").find($("select[name='spendСategory']")).find(":selected").val();
 		var description =  $("#section_expense_report").find($("input[name='spendDescription']")).val();
@@ -75,8 +75,7 @@
 
 		$("#section_expense_report").find($("input[name='spendDate']")).val('');
   		$("#section_expense_report").find($("input[name='spendSum']")).val('');
-  		//не работает для select хз атрибут выставляется а выбран все равно другой option
-   		$("#section_expense_report").find($("select[name='spendСategory']")).find("option [value='-Select category-']").prop('selected',true);
+   		$("#section_expense_report").find($("select[name='spendСategory'] option")).eq(0).prop('selected',true);
    		$("#section_expense_report").find($("input[name='spendDescription']")).val('');
 	}
 
