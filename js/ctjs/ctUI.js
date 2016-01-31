@@ -24,6 +24,7 @@
 	spendsUI.setDatepicker = function(){
 	// Календарь для выбора даты
 	$("#section_expense_report").find("input[name='spendDate']").datepicker({
+		format: 'mm/dd/yyyy',
 		todayBtn: true,
 		language: "ru",
 		autoclose: true,
