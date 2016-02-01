@@ -4,7 +4,8 @@
 	spendsUI.fillCategoriesSelect = function(categories){
 
 		$("#section_expense_report").find("select[name='spendСategory']").empty().append(
-		$('<option selected="selected" disabled="disabled">-Select category-</option>'));
+			$('<option selected="selected" disabled="disabled">-Select category-</option>')
+		);
 
 		for (var i=0; i < categories.length; i++) {
 			$("#section_expense_report").find("select[name='spendСategory']").append(
@@ -13,12 +14,24 @@
 		}
 	}
 
-	spendsUI.fillRecentSpends = function(){
-		//TODO дописать заполнение недавних трат (за сегодняшний день)
+	spendsUI.fillRecentSpends = function(spends){
+		$("#section_expense_report").find("#showSpendForm").empty().append(
+        			$('<table id="spendsTable">')
+        		);
+
+        		for (var i=0; i < spends.length; i++) {
+        			$("#section_expense_report").find("#spendsTable").append(
+        				'<tr><td> '+spends[i].id+' </td><td> '+spends[i].spendDate+' </td><td> '+spends[i].sum+' </td><td> '+spends[i].category_id+' </td><td> '+spends[i].description+' </td></tr>'
+        			);
+        		};
 	}
 
 	spendsUI.setCategories = function(){
 		spendsDataManager.getCategories(spendsUI.fillCategoriesSelect);
+	}
+
+	spendsUI.setRecentSpends = function() {
+		spendsDataManager.getSpends(0,0,spendsUI.fillRecentSpends);
 	}
 	
 	spendsUI.setDatepicker = function(){
@@ -83,6 +96,7 @@
 	spendsUI.init = function(){
 		spendsUI.setCategories();
 		spendsUI.setDatepicker();
+		spendsUI.setRecentSpends();
 
 		$("#section_expense_report").find("button[name='addCategoryButton']").bind("click",spendsUI.showCategoryAddModal);
 		$("#addCategoryModal").find("button[name='addCategory']").bind("click",spendsUI.addCategoryFromModal);

@@ -62,8 +62,21 @@
 
 	spendsDataManager.getSpends = function(dateFrom,dateTo,fillRecentSpendsUICallback){
 		spendsDataManager.db.readTransaction(function(tx){
-        			//TODO написать извлечение из базы записей для определенного периода
-        			});        		
+			tx.executeSql("SELECT * FROM spends",[],function(tx,spends){
+				var result = [];
+				for(var i=0; i<spends.rows.length; i++){
+					var row = spends.rows.item(i);
+					result[i] = {
+								id: row.id,
+								spendDate: row.spendDate,
+        						category_id: row.category_id,
+        						sum: row.sum,
+        						description: row.description
+        						}
+				}
+				fillRecentSpendsUICallback(result);
+   			});
+		});
 	}
 
 	spendsDataManager.init = function(){
