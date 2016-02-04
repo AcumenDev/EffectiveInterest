@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Кабинет инвестора</title>
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <script src="libs/jquery-2.1.4.min.js"></script>
+    <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script src="libs/Chart.js"></script>
+    <script src="js/ei.js"></script>
+    <script src="js/gui.js"></script>
+    <script src="js/ga.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">На главную</a></li>
+        <li class="active"><a href="deposit.html">Депозитный калькулятор</a></li>
+        <li><a href="cost.html">Учет расходов</a></li>
+        <li><a href="#"> Актив/Пасив</a></li>
+    </ul>
+</nav>
+<div id="section_effective_interest" class="tab-pane fade in active">
+    <h3>Депозитный калькулятор</h3>
+
+    <div style="width:200px">
+        <div class="form-group">
+            <label>Начальная сумма</label>
+            <input type="text" name="summ" class="form-control" placeholder="Начальная сумма"
+                   aria-describedby="basic-addon1">
+        </div>
+        <div class="form-group">
+            <label>Количество месяцев</label>
+            <input type="text" name="mounts" class="form-control" placeholder="Количество месяцев"
+                   aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group">
+            <label>Процент по депозиту</label>
+
+            <div class="input-group">
+                <input type="text" name="percent" class="form-control" placeholder="Процент по депозиту"
+                       aria-describedby="basic-addon1">
+                <span class="input-group-addon">%</span>
+            </div>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" name="isCapitalization" value="1">Капитализация</label>
+        </div>
+        <div class="form-group">
+            <label>Ежемесячное пополнение</label>
+            <input type="text" name="add_summ" class="form-control" placeholder="" aria-describedby="basic-addon1">
+        </div>
+        <button type="button" id="calk_button" class="btn btn-success">Расчитать</button>
+    </div>
+    <b>эффективный процент:</b>
+    <span id='effectiv_percent'></span>
+    <br/>
+    <b>Сумма процентов:</b>
+    <span id='total_interest'></span>
+    <br/>
+    <b>Конечная сумма:</b>
+    <span id='maturity_value'></span>
+    <br/>
+
+    <div style="width:600px;height:400px">
+        <h4>Сумма на депозите по месяцам</h4>
+
+        <div id="canvashome">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+</div>
+</body>
+</html>
