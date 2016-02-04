@@ -16,12 +16,18 @@
 
 	spendsUI.fillRecentSpends = function(spends){
 		$("#section_expense_report").find("#showSpendForm").empty().append(
-        			$('<table id="spendsTable">')
+        			$('<table class="table" id="spendsTable"><tr><td> id </td><td> дата </td><td> сумма </td><td> категория </td><td> описание </td></tr></table>')
         		);
 
         		for (var i=0; i < spends.length; i++) {
+        		//Ущербный код
+        		var d = new Date(spends[i].spendDate*1000)
+        		var yyyy = d.getFullYear()
+        		var mm = ('0' + (d.getMonth() + 1)).slice(-2)
+        		var dd = ('0' + d.getDate()).slice(-2)
+
         			$("#section_expense_report").find("#spendsTable").append(
-        				'<tr><td> '+spends[i].id+' </td><td> '+spends[i].spendDate+' </td><td> '+spends[i].sum+' </td><td> '+spends[i].category_id+' </td><td> '+spends[i].description+' </td></tr>'
+        				'<tr><td> '+spends[i].id+' </td><td> '+dd+'.'+mm+'.'+yyyy+' </td><td> '+spends[i].sum+' </td><td> '+spends[i].category_id+' </td><td> '+spends[i].description+' </td></tr>'
         			);
         		};
 	}
