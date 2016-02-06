@@ -31,7 +31,7 @@ var spendsDataManager = {
         });
     },
 
-    getCategories: function (fillCategoriesUICallback) {
+    getCategories: function (fillCategoriesUICallback,newCategory) {
         this.db.readTransaction(function (tx) {
             tx.executeSql("SELECT * FROM categories", [], function (tx, categories) {
                 var result = [];
@@ -42,7 +42,7 @@ var spendsDataManager = {
                         categoryName: row.category
                     }
                 }
-                fillCategoriesUICallback(result);
+                fillCategoriesUICallback(result,newCategory);
             });
         });
     },

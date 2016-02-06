@@ -10,16 +10,21 @@ var spendsUI = {
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
     },
 
-    fillCategoriesSelect: function (categories) {
-        spendsUI.context.find("select[name='spendСategory']").empty().append(
-            $('<option selected="selected" disabled="disabled">-Select category-</option>')
-        );
+    fillCategoriesSelect: function (categories, newCategory) {
+        var select = spendsUI.context.find("select[name='spendСategory']");
+        select.empty();
+
+        if (!categories.length > 0) {
+            select.append($('<option selected="selected" disabled="disabled">-Select category-</option>'));
+        }
 
         for (var i = 0; i < categories.length; i++) {
-            $("#section_expense_report").find("select[name='spendСategory']").append(
-                $('<option value="' + categories[i].id + '">' + categories[i].categoryName + '</option>')
-            );
+            select.append($('<option value="' + categories[i].id + '">' + categories[i].categoryName + '</option>'));
         }
+
+        spendsUI.context.find($("select[name='spendСategory'] option")).filter(function () {
+            return $(this).text() == newCategory;
+        }).prop('selected', true);
     },
 
     unixTimeToString: function (time) {
@@ -45,8 +50,8 @@ var spendsUI = {
         }
     },
 
-    setCategories: function () {
-        spendsDataManager.getCategories(this.fillCategoriesSelect);
+    setCategories: function (newCategory) {
+        spendsDataManager.getCategories(this.fillCategoriesSelect, newCategory);
     },
 
     setRecentSpends: function () {
@@ -77,12 +82,12 @@ var spendsUI = {
         if (newCategory != null) {
 
             spendsDataManager.addCategory(newCategory);
-
+            //   spendsUI.createCategory = newCategory;
 
             //   alert("Добавлено: " + newCategory + "!");
         }
         $("#addCategoryModal").modal('hide');
-        spendsUI.setCategories();
+        spendsUI.setCategories(newCategory);
     },
 
     addSpend: function () {
