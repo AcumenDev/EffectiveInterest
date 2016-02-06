@@ -37,9 +37,10 @@ var spendsUI = {
         );
 
         for (var i = 0; i < spends.length; i++) {
+            var item = spends[i];
             spendsUI.context.find("#spendsTable").append(
-                '<tr><td> ' + spends[i].id + ' </td><td> ' +
-                spendsUI.unixTimeToString(spends[i].spendDate) + ' </td><td> ' + spends[i].sum + ' </td><td> ' + spends[i].category_id + ' </td><td> ' + spends[i].description + ' </td></tr>'
+                '<tr><td> ' + item.id + ' </td><td> ' +
+                spendsUI.unixTimeToString(item.spendDate) + ' </td><td> ' + item.sum + ' </td><td> ' + item.category + ' </td><td> ' + item.description + ' </td></tr>'
             );
         }
     },
@@ -74,10 +75,11 @@ var spendsUI = {
         // Метод добавления категории из модального окна
         var newCategory = $("#addCategoryModal").find("input[name='newCategoryName']").val();
         if (newCategory != null) {
-            spendsDataManager.db.transaction(function (tx) {
-                tx.executeSql("INSERT INTO categories (category) VALUES (?)", [newCategory]);
-            });
-            alert("Добавлено: " + newCategory + "!");
+
+            spendsDataManager.addCategory(newCategory);
+
+
+            //   alert("Добавлено: " + newCategory + "!");
         }
         $("#addCategoryModal").modal('hide');
         spendsUI.setCategories();
