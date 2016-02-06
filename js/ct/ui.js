@@ -13,6 +13,7 @@ var spendsUI = {
         this.setCategories();
         this.setDatepicker();
         this.getSpendsCurrentDay();
+        this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
@@ -56,6 +57,21 @@ var spendsUI = {
                 spendsUI.unixTimeToString(item.spendDate) + ' </td><td> ' + item.sum + ' </td><td> ' + item.category + ' </td><td> ' + item.description + ' </td></tr>'
             );
         }
+    },
+
+    monthReport: function () {
+        spendsDataManager.getSpendsForMonth(function (result) {
+            var monthReportTable = $('#tableFormBody');
+
+            result.forEach(function (item, i, arr) {
+                var blankRow = monthReportTable.find("tr.blank").clone();
+                blankRow.removeClass('blank');
+                var tmpRow = _.template(blankRow[0].outerHTML);
+                var dataRow = tmpRow(item);
+                monthReportTable.prepend(dataRow);
+            });
+
+        });
     },
 
     setCategories: function (newCategory) {

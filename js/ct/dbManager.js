@@ -102,6 +102,23 @@ var spendsDataManager = {
         });
     },
 
+    getSpendsForMonth: function (resultCollback) {
+
+        this.db.readTransaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "SELECT c.category, sum(s.sum) as total FROM spends s LEFT JOIN categories c ON s.category_id = c.id group by c.category", [], function (tx, spends) {
+                var result = [];
+                for (var i = 0; i < spends.rows.length; i++) {
+                    var row = spends.rows.item(i);
+                    result[i] = {
+                        category: row.category,
+                        total: row.total
+                    }
+                }
+                resultCollback(result);
+            });
+        });
+    },
+
     init: function () {
         this.openDB();
         this.createCategoriesTable();

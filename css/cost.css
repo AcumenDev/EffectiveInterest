@@ -10,3 +10,7 @@
     padding-left: 10px;
     margin-top: 10px;
 }
+
+.monthReport-table tr.blank {
+    display: none;
+}
