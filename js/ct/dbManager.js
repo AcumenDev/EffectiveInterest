@@ -1,6 +1,6 @@
 var spendsDataManager = {
     db: {},
-
+    logTag: "spendsDataManager ",
 // Для удобства помещаем функцию в глобальную переменную
     openDB: function () {
         this.db = openDatabase("spendsDB", "1.0", "", 1024 * 1024 * 5);
@@ -32,7 +32,6 @@ var spendsDataManager = {
     },
 
     getCategories: function (fillCategoriesUICallback) {
-
         this.db.readTransaction(function (tx) {
             tx.executeSql("SELECT * FROM categories", [], function (tx, categories) {
                 var result = [];
@@ -47,21 +46,20 @@ var spendsDataManager = {
             });
         });
     },
+
     addCategory: function (categoryName) {
         this.db.transaction(function (tx) {
             tx.executeSql("INSERT INTO categories (category) VALUES (?)", [categoryName]);
         });
-
     },
 
     addSpend: function (date, sum, category, description) {
 
         this.db.transaction(function (tx) {
             tx.executeSql("INSERT INTO spends (sum,description,category_id,spend_date) VALUES (?,?,?,?)", [sum, description, category, date], function () {
-                alert("Добавлено!");
+                console.log(spendsDataManager.logTag + "addSpend Добавлено.");
             })
         });
-
     },
 
     getSpends: function (dateFrom, dateTo, fillRecentSpendsUICallback) {
