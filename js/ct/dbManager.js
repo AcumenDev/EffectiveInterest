@@ -1,7 +1,7 @@
 var spendsDataManager = {
     db: {},
     logTag: "spendsDataManager ",
-// Для удобства помещаем функцию в глобальную переменную
+
     openDB: function () {
         this.db = openDatabase("spendsDB", "1.0", "", 1024 * 1024 * 5);
         // название БД, версия, описание, размер
@@ -9,31 +9,31 @@ var spendsDataManager = {
 
     createSpendsTable: function () {
         this.db.transaction(function (tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS spends (id INTEGER PRIMARY KEY AUTOINCREMENT, spend_date INTEGER NOT NULL,sum FLOAT NOT NULL,description TEXT, category_id REFERENCES categories(category_id) NOT NULL)");
+            spendsDataManager.executeAndShowSql(tx, "CREATE TABLE IF NOT EXISTS spends (id INTEGER PRIMARY KEY AUTOINCREMENT, spend_date INTEGER NOT NULL,sum FLOAT NOT NULL,description TEXT, category_id REFERENCES categories(category_id) NOT NULL)");
         });
     },
 
     createCategoriesTable: function () {
         this.db.transaction(function (tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL)");
+            spendsDataManager.executeAndShowSql(tx, "CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL)");
         });
     },
 
     setTestCategories: function () {
         this.db.transaction(function (tx) {
-            tx.executeSql("INSERT INTO categories (id,category) VALUES (1,'продукты')");
+            spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,category) VALUES (1,'продукты')");
         });
     },
 
     setTestSpends: function () {
         this.db.transaction(function (tx) {
-            tx.executeSql("INSERT INTO spends (id,spend_date,sum,description,category_id) VALUES (1,20150924,500.0,'покупочки',1)");
+            spendsDataManager.executeAndShowSql(tx, "INSERT INTO spends (id,spend_date,sum,description,category_id) VALUES (1,20150924,500.0,'покупочки',1)");
         });
     },
 
-    getCategories: function (fillCategoriesUICallback,newCategory) {
+    getCategories: function (fillCategoriesUICallback, newCategory) {
         this.db.readTransaction(function (tx) {
-            tx.executeSql("SELECT * FROM categories", [], function (tx, categories) {
+            spendsDataManager.executeAndShowSql(tx, "SELECT * FROM categories", [], function (tx, categories) {
                 var result = [];
                 for (var i = 0; i < categories.rows.length; i++) {
                     var row = categories.rows.item(i)
@@ -42,29 +42,50 @@ var spendsDataManager = {
                         categoryName: row.category
                     }
                 }
-                fillCategoriesUICallback(result,newCategory);
+                fillCategoriesUICallback(result, newCategory);
             });
         });
     },
 
     addCategory: function (categoryName) {
         this.db.transaction(function (tx) {
-            tx.executeSql("INSERT INTO categories (category) VALUES (?)", [categoryName]);
+            spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (category) VALUES (?)", [categoryName]);
         });
     },
 
     addSpend: function (date, sum, category, description) {
 
         this.db.transaction(function (tx) {
-            tx.executeSql("INSERT INTO spends (sum,description,category_id,spend_date) VALUES (?,?,?,?)", [sum, description, category, date], function () {
+            spendsDataManager.executeAndShowSql(tx, "INSERT INTO spends (sum,description,category_id,spend_date) VALUES (?,?,?,?)", [sum, description, category, date], function () {
                 console.log(spendsDataManager.logTag + "addSpend Добавлено.");
             })
         });
     },
 
-    getSpends: function (dateFrom, dateTo, fillRecentSpendsUICallback) {
+    executeAndShowSql: function (tx, sql, param, callback, errorCallback) {
+        function replacer(str, p1, p2, offset, s) {
+            positionParam++;
+            return param[positionParam - 1];
+        }
+
+        var positionParam = 0;
+        newString = sql.replace(new RegExp("\\?", 'g'), replacer);
+        console.log(this.logTag + "'" + newString + "'");
+
+        tx.executeSql(sql, param, callback, errorCallback);
+    },
+
+    getSpends: function (fillRecentSpendsUICallback, dateFrom, dateTo) {
+
+        if (isNaN(dateFrom)) {
+            dateFrom = 0;
+        }
+        if (isNaN(dateTo)) {
+            dateTo = 0;
+        }
+
         this.db.readTransaction(function (tx) {
-            tx.executeSql("SELECT s.id, s.spend_date, s.sum, s.description, c.category FROM spends s LEFT JOIN categories c ON s.category_id= c.id;", [], function (tx, spends) {
+            spendsDataManager.executeAndShowSql(tx, "SELECT s.id, s.spend_date, s.sum, s.description, c.category FROM spends s LEFT JOIN categories c ON s.category_id= c.id WHERE (?=0 OR s.spend_date>=?) AND (?=0 OR s.spend_date<=?)", [dateFrom, dateFrom, dateTo, dateTo], function (tx, spends) {
                 var result = [];
                 for (var i = 0; i < spends.rows.length; i++) {
                     var row = spends.rows.item(i);

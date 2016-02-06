@@ -1,10 +1,18 @@
 var spendsUI = {
+    getSpendsCurrentDay: function () {
+        var start = new Date();
+        start.setHours(0, 0, 0, 0);
+
+        var end = new Date();
+        end.setHours(23, 59, 59, 999);
+        this.setRecentSpends(start.getTime() / 1000, end.getTime() / 1000);
+    },
+
     init: function () {
         this.context = $("#section_expense_report");
         this.setCategories();
         this.setDatepicker();
-        this.setRecentSpends();
-
+        this.getSpendsCurrentDay();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
@@ -54,8 +62,8 @@ var spendsUI = {
         spendsDataManager.getCategories(this.fillCategoriesSelect, newCategory);
     },
 
-    setRecentSpends: function () {
-        spendsDataManager.getSpends(0, 0, this.fillRecentSpends);
+    setRecentSpends: function (start, end) {
+        spendsDataManager.getSpends(this.fillRecentSpends, start, end);
     },
 
     setDatepicker: function () {
