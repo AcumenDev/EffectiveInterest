@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Кабинет инвестора</title>
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="libs/bootstrap-datepicker-1.4.0-dist/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" type="text/css" href="css/cost.css">
+    <script src="libs/jquery-2.1.4.min.js"></script>
+    <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script src="libs/bootstrap-datepicker-1.4.0-dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="libs/bootstrap-datepicker-1.4.0-dist/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script src="libs/underscore.js"></script>
+    <script src="js/ct/dbManager.js"></script>
+    <script src="js/ct/ui.js"></script>
+    <script src="js/ct/tab.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <ul class="nav navbar-nav">
+        <li><a href="#">На главную</a></li>
+        <li><a href="deposit.html">Депозитный калькулятор</a></li>
+        <li class="active"><a href="cost.html">Учет расходов</a></li>
+    </ul>
+</nav>
+
+<h3>Учет расходов</h3>
+
+<div id="section_expense_report" class="container-fluid">
+    <!--Модальное окно добаления категории трат-->
+    <div id="addCategoryModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false">×</button>
+                    <h3 class="modal-title" id="myModalLabel">Добавление категории</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label>Название категории</label>
+                        <input type="text" class="form-control" name="newCategoryName">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="false">Отменить</button>
+                    <button name="addCategory" class="btn btn-primary">Добавить категорию</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------->
+
+    <div id="addSpendForm" class="leftcolumn">
+        <div class="form-group">
+            <label>Выберите дату:</label>
+
+            <div class="input-group">
+                <input type="text" name="spendDate" class="form-control" placeholder="Выберите дату..."/>
+                <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Введите затраченную сумму:</label>
+
+            <div class="input-group">
+                <input type="text" name="spendSum" class="form-control" placeholder="Сумма..."
+                       aria-describedby="basic-addon1">
+                <span class="input-group-addon">.руб</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+                <label>Выберите категорию затрат:</label>
+                <select class="form-control" name="spendСategory"></select>
+            </div>
+            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">Добавить категорию
+            </button>
+        </div>
+        <div class="form-group">
+            <label>Ведите описание затраченной суммы:</label>
+            <input type="text" name="spendDescription" class="form-control" placeholder="Описание...">
+        </div>
+        <button type="button" name="addSpendButton" class="btn btn-success">Добавить</button>
+    </div>
+    <div class="rightcolumn">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">Отчет за месяц</div>
+            <div class="panel-body">
+                <table class="table table-condensed monthReport-table">
+                    <tr>
+                        <th> категория</th>
+                        <th> сумма</th>
+                    </tr>
+                    <tr class="blank">
+                        <td>{{category}}</td>
+                        <td>{{total}}</td>
+                    </tr>
+                    <tbody id="tableFormBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">Отчет за сегодня</div>
+            <div class="panel-body" id="showSpendForm">
+                пока тут ничего нет
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

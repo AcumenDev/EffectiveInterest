@@ -1,0 +1,16 @@
+.leftcolumn {
+    width: 27%;
+    float: left;
+    padding-right: 10px;
+}
+
+.rightcolumn {
+    width: 73%;
+    float: right;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.monthReport-table tr.blank {
+    display: none;
+}
