@@ -31,7 +31,7 @@ var spendsDataManager = {
         });
     },
 
-    getCategories: function (resultCollback) {
+    getCategories: function (resultCallback) {
         this.db.readTransaction(function (tx) {
             spendsDataManager.executeAndShowSql(tx, "SELECT * FROM categories", [], function (tx, categories) {
                 var result = [];
@@ -42,7 +42,7 @@ var spendsDataManager = {
                         categoryName: row.category
                     }
                 }
-                resultCollback(result);
+                resultCallback(result);
             });
         });
     },
@@ -94,7 +94,7 @@ var spendsDataManager = {
                         spendDate: row.spend_date,
                         category: row.category,
                         sum: row.sum,
-                        description: isNaN(row.description) ? '' : row.description
+                        description: !row.description ? '' : row.description
                     }
                 }
                 resultCollback(result);

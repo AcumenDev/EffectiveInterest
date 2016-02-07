@@ -64,6 +64,7 @@ var spendsUI = {
 
     setRecentSpends: function (start, end) {
         spendsDataManager.getSpends(start, end, function (spends) {
+
             spendsUI.context.find("#showSpendForm").empty().append(
                 $('<table class="table" id="spendsTable"><tr><td> id </td><td> дата </td><td> сумма </td><td> категория </td><td> описание </td></tr></table>')
             );
@@ -75,6 +76,27 @@ var spendsUI = {
                     spendsUI.unixTimeToString(item.spendDate) + ' </td><td> ' + item.sum + ' </td><td> ' + item.category + ' </td><td> ' + item.description + ' </td></tr>'
                 );
             }
+
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "200px",
+
+            editing: true,
+            sorting: true,
+            paging: true,
+
+            data: spends,
+
+            fields: [
+                { name: "spendDate", title: "Дата", align: "center", type: "text" },
+                { name: "sum", title: "Сумма", align: "center", type: "number" },
+                { name: "category", title: "Категория", align: "center", type: "text" },
+                { name: "description", title: "Описание", align: "center", type: "textarea" },
+                { type: "control", editButton: true, deleteButton: true}
+            ]
+        })
+
+
         });
     },
 
