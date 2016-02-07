@@ -49,7 +49,7 @@ var spendsUI = {
             select.empty();
 
             if (!categories.length > 0) {
-                select.append($('<option selected="selected" disabled="disabled">-Select category-</option>'));
+                select.append($('<option selected="selected" value="-1" disabled="disabled">-Select category-</option>'));
             }
 
             for (var i = 0; i < categories.length; i++) {
@@ -117,19 +117,35 @@ var spendsUI = {
         var category = categorySelect.find(":selected").val();
         var description = descriptionText.val();
 
-        if (!date || !sum || !category) {
+        var isValidForm = true;
+
+
+        if (!date) {
             spendDate.css('border-color', 'red');
+            isValidForm = false;
+        } else {
+            spendDate.css('border-color', '');
+        }
+
+        if (category == -1) {
+            categorySelect.css('border-color', 'red');
+            isValidForm = false;
+        } else {
+            categorySelect.css('border-color', '');
+        }
+
+        if (!sum) {
             sumText.css('border-color', 'red');
-            descriptionText.css('border-color', 'red');
-            //  alert("Заполните все поля!");
+            isValidForm = false;
+        } else {
+            sumText.css('border-color', '');
+        }
+
+        if (!isValidForm) {
             return;
         }
 
         spendsDataManager.addSpend(date, sum, category, description);
-
-        spendDate.css('border-color', '');
-        sumText.css('border-color', '');
-        categorySelect.css('border-color', '');
 
         descriptionText.val('');
         sumText.val('');
