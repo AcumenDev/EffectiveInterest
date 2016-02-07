@@ -5,7 +5,7 @@ var spendsUI = {
 
         var end = new Date();
         end.setHours(23, 59, 59, 999);
-        this.setRecentSpends(start.getTime() / 1000, end.getTime() / 1000);
+        this.setDetailedSpends(start.getTime() / 1000, end.getTime() / 1000);
     },
 
     init: function () {
@@ -62,9 +62,10 @@ var spendsUI = {
         });
     },
 
-    setRecentSpends: function (start, end) {
+    setDetailedSpends: function (start, end) {
         spendsDataManager.getSpends(start, end, function (spends) {
 
+            /*
             spendsUI.context.find("#showSpendForm").empty().append(
                 $('<table class="table" id="spendsTable"><tr><td> id </td><td> дата </td><td> сумма </td><td> категория </td><td> описание </td></tr></table>')
             );
@@ -76,6 +77,7 @@ var spendsUI = {
                     spendsUI.unixTimeToString(item.spendDate) + ' </td><td> ' + item.sum + ' </td><td> ' + item.category + ' </td><td> ' + item.description + ' </td></tr>'
                 );
             }
+            */
 
         $("#jsGrid").jsGrid({
             width: "100%",
