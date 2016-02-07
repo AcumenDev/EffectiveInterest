@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Введеите затраченную сумму:</label>
+            <label>Введите затраченную сумму:</label>
 
             <div class="input-group">
                 <input type="text" name="spendSum" class="form-control" placeholder="Сумма..."
@@ -85,39 +85,32 @@
         </div>
         <button type="button" name="addSpendButton" class="btn btn-success">Добавить</button>
     </div>
-
-
     <div class="rightcolumn">
         <div class="panel panel-default">
             <div class="panel-heading text-center">Отчет за месяц</div>
             <div class="panel-body">
-                <table class="table monthReport-table">
+                <table class="table table-condensed monthReport-table">
                     <tr>
                         <th> категория</th>
                         <th> сумма</th>
                     </tr>
-                    <tbody id="tableFormBody">
                     <tr class="blank">
                         <td>{{category}}</td>
                         <td>{{total}}</td>
                     </tr>
+                    <tbody id="tableFormBody">
+
                     </tbody>
                 </table>
             </div>
         </div>
-
-
         <div class="panel panel-default">
             <div class="panel-heading text-center">Отчет за сегодня</div>
             <div class="panel-body" id="showSpendForm">
                 пока тут ничего нет
             </div>
         </div>
-
-
     </div>
-
-
 </div>
 </body>
 </html>

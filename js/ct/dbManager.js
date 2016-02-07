@@ -31,7 +31,7 @@ var spendsDataManager = {
         });
     },
 
-    getCategories: function (fillCategoriesUICallback, newCategory) {
+    getCategories: function (resultCollback) {
         this.db.readTransaction(function (tx) {
             spendsDataManager.executeAndShowSql(tx, "SELECT * FROM categories", [], function (tx, categories) {
                 var result = [];
@@ -42,7 +42,7 @@ var spendsDataManager = {
                         categoryName: row.category
                     }
                 }
-                fillCategoriesUICallback(result, newCategory);
+                resultCollback(result);
             });
         });
     },
@@ -75,7 +75,7 @@ var spendsDataManager = {
         tx.executeSql(sql, param, callback, errorCallback);
     },
 
-    getSpends: function (fillRecentSpendsUICallback, dateFrom, dateTo) {
+    getSpends: function (dateFrom, dateTo, resultCollback) {
 
         if (isNaN(dateFrom)) {
             dateFrom = 0;
@@ -94,10 +94,10 @@ var spendsDataManager = {
                         spendDate: row.spend_date,
                         category: row.category,
                         sum: row.sum,
-                        description: row.description
+                        description: isNaN(row.description) ? '' : row.description
                     }
                 }
-                fillRecentSpendsUICallback(result);
+                resultCollback(result);
             });
         });
     },
