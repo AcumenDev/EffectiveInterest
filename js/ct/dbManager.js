@@ -75,6 +75,28 @@ var spendsDataManager = {
         tx.executeSql(sql, param, callback, errorCallback);
     },
 
+    updateSpend: function (item) {
+        if (item == null) {
+            return;
+        }
+
+        item.category = 1;
+
+        this.db.transaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "UPDATE spends SET sum=?,description=?,category_id=?,spend_date=? WHERE id=?", [item.sum, item.description, item.category, item.spendDate, item.id])
+        });
+    },
+
+    deleteSpend: function (item) {
+        if (item == null) {
+            return;
+        }
+
+        this.db.transaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "DELETE FROM spends WHERE id=?", [item.id])
+        });
+    },
+
     getSpends: function (dateFrom, dateTo, resultCollback) {
 
         if (isNaN(dateFrom)) {
