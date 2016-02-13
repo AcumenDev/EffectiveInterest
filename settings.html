@@ -4,49 +4,55 @@
     <meta charset="UTF-8">
     <title>Кабинет инвестора</title>
     <link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
-     <link rel="stylesheet" type="text/css" href="css/settings.css">
+    <link rel="stylesheet" type="text/css" href="css/settings.css">
     <script src="libs/jquery-2.1.4.min.js">
-</script>
+    </script>
     <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js">
-</script>
-     <script src="js/ct/dbManager.js">
-</script>
- <script src="js/settings.js">
-</script>
+    </script>
+    <script src="js/ct/dbManager.js">
+    </script>
+    <script src="js/settings.js">
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html">Кабинет инвестора</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Кабинет инвестора</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="deposit.html">Депозитный калькулятор</a></li>
+            <li><a href="cost.html">Учет расходов</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="settings.html"><span class="glyphicon glyphicon-option-vertical"></span>
+                Настройки</a></li>
+        </ul>
     </div>
-    <ul class="nav navbar-nav">
-        <li><a href="deposit.html">Депозитный калькулятор</a></li>
-        <li><a href="cost.html">Учет расходов</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-    <li class="active"><a href="settings.html"><span class="glyphicon glyphicon-option-vertical"></span> Настройки</a></li>
-    </ul>
-  </div>
 </nav>
 
 
 <div class="settings-form">
+    <form>
+        <div class="form-group">
 
+            <input type="button" name="export_db" value="Экспортировать базу">
 
-<form>
- <div class="form-group">
+            <p class="help-block"></p>
+        </div>
 
-    <input type="button" name="export_db" value="Экспортировать базу">
-    <p class="help-block"></p>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputFile">Импортировать базу</label>
-    <input type="file" name="import_db">
-    <p class="help-block"></p>
-  </div>
-  <button type="submit" class="btn btn-default">Импорт</button>
-</form>
+        <div class="form-group">
+            <label>Импортировать базу</label>
+            <input type="file" name="import_db_file">
+
+            <p class="help-block"></p>
+        </div>
+        <div class="form-group">
+            <label> Операция очистит существующую базу</label>
+            <button type="button" name="import_btn" class="btn btn-default">Импорт</button>
+        </div>
+
+    </form>
 
 </div>
 </body>

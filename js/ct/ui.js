@@ -100,7 +100,7 @@ var spendsUI = {
         // Метод добавления категории из модального окна
         var newCategory = $("#addCategoryModal").find("input[name='newCategoryName']").val();
         if (newCategory != null) {
-            spendsDataManager.addCategory(newCategory);
+            spendsDataManager.addCategory({"name": newCategory});
         }
         $("#addCategoryModal").modal('hide');
         spendsUI.setCategories(newCategory);
@@ -145,7 +145,7 @@ var spendsUI = {
             return;
         }
 
-        spendsDataManager.addSpend(date, sum, category, description);
+        spendsDataManager.addSpend({"date": date, "sum": sum, "categoryId": category, "description": description});
 
         descriptionText.val('');
         sumText.val('');
