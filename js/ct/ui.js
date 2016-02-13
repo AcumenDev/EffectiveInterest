@@ -14,6 +14,22 @@ var spendsUI = {
         this.setDatepicker();
         this.getSpendsCurrentDay();
         this.monthReport();
+
+        this.descriptionText = this.context.find($("input[name='spendDescription']"));
+        this.sumText = this.context.find($("input[name='spendSum']"));
+
+        this.sumText.on('keypress', function (e) {
+            if (e.which == 13) {
+                spendsUI.descriptionText.focus();
+            }
+        });
+        this.descriptionText.on('keypress', function (e) {
+            if (e.which == 13) {
+                spendsUI.addSpend();
+            }
+        });
+
+
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
@@ -179,6 +195,7 @@ var spendsUI = {
 
         descriptionText.val('');
         sumText.val('');
+        sumText.focus();
         spendsUI.getSpendsCurrentDay();
         spendsUI.monthReport();
     }

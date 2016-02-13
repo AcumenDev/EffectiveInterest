@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css"
           href="libs/bootstrap-datepicker-1.4.0-dist/css/bootstrap-datepicker3.min.css">
     <link rel="stylesheet" type="text/css" href="css/cost.css">
-    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid.min.css" />
-    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid.min.css"/>
+    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid-theme.min.css"/>
 
     <script src="libs/jquery-2.1.4.min.js"></script>
     <script src="libs/jsgrid-1.4.0/jsgrid.js"></script>
@@ -23,18 +23,18 @@
 <body>
 
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html">Кабинет инвестора</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Кабинет инвестора</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="deposit.html">Депозитный калькулятор</a></li>
+            <li class="active"><a href="cost.html">Учет расходов</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="settings.html"><span class="glyphicon glyphicon-option-vertical"></span> Настройки</a></li>
+        </ul>
     </div>
-    <ul class="nav navbar-nav">
-        <li><a href="deposit.html">Депозитный калькулятор</a></li>
-        <li class="active"><a href="cost.html">Учет расходов</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-    <li><a href="settings.html"><span class="glyphicon glyphicon-option-vertical"></span> Настройки</a></li>
-    </ul>
-  </div>
 </nav>
 
 <h3>Учет расходов</h3>
@@ -73,6 +73,15 @@
                 <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label>Выберите категорию затрат:</label>
+                <select class="form-control" name="spendСategory"></select>
+            </div>
+            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">Добавить категорию
+            </button>
+        </div>
         <div class="form-group">
             <label>Введите затраченную сумму:</label>
 
@@ -81,14 +90,6 @@
                        aria-describedby="basic-addon1">
                 <span class="input-group-addon">.руб</span>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group">
-                <label>Выберите категорию затрат:</label>
-                <select class="form-control" name="spendСategory"></select>
-            </div>
-            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">Добавить категорию
-            </button>
         </div>
         <div class="form-group">
             <label>Ведите описание затраченной суммы:</label>
