@@ -38,7 +38,8 @@ var spendsDataManager = {
                 for (var i = 0; i < categories.rows.length; i++) {
                     var row = categories.rows.item(i)
                     result[i] = {
-                        id: row.id,
+                        //TODO костыль для селекта грида
+                        id: row.id.toString(),
                         categoryName: row.name
                     }
                 }
@@ -89,8 +90,6 @@ var spendsDataManager = {
             return;
         }
 
-        item.category = 1;
-
         this.db.transaction(function (tx) {
             spendsDataManager.executeAndShowSql(tx, "UPDATE spends SET sum=?,description=?,category_id=?,spend_date=? WHERE id=?", [item.sum, item.description, item.category, item.spendDate, item.id])
         });
@@ -116,16 +115,16 @@ var spendsDataManager = {
         }
 
         this.db.readTransaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "SELECT s.id, s.spend_date, s.sum, s.description, c.name as 'category_name' FROM spends s LEFT JOIN categories c ON s.category_id= c.id WHERE (?=0 OR s.spend_date>=?) AND (?=0 OR s.spend_date<=?)", [dateFrom, dateFrom, dateTo, dateTo], function (tx, spends) {
+            spendsDataManager.executeAndShowSql(tx, "SELECT s.id, s.spend_date, s.sum, s.description, s.category_id FROM spends s WHERE (?=0 OR s.spend_date>=?) AND (?=0 OR s.spend_date<=?)", [dateFrom, dateFrom, dateTo, dateTo], function (tx, spends) {
                 var result = [];
                 for (var i = 0; i < spends.rows.length; i++) {
                     var row = spends.rows.item(i);
                     result[i] = {
                         id: row.id,
                         spendDate: row.spend_date,
-                        category: row.category_name,
+                        category_id: row.category_id,
                         sum: row.sum,
-                        description: row.description==null ? '' : row.description
+                        description: row.description == null ? '' : row.description
                     }
                 }
                 resultCollback(result);

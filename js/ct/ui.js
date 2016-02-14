@@ -1,4 +1,5 @@
 var spendsUI = {
+
     getSpendsCurrentDay: function () {
         var start = new Date();
         start.setHours(0, 0, 0, 0);
@@ -65,44 +66,34 @@ var spendsUI = {
     setDetailedSpends: function (start, end) {
         spendsDataManager.getSpends(start, end, function (spends) {
 
-            /*
-             spendsUI.context.find("#showSpendForm").empty().append(
-             $('<table class="table" id="spendsTable"><tr><td> id </td><td> дата </td><td> сумма </td><td> категория </td><td> описание </td></tr></table>')
-             );
+             spendsDataManager.getCategories(function(categories){
 
-             for (var i = 0; i < spends.length; i++) {
-             var item = spends[i];
-             spendsUI.context.find("#spendsTable").append(
-             '<tr><td> ' + item.id + ' </td><td> ' +
-             spendsUI.unixTimeToString(item.spendDate) + ' </td><td> ' + item.sum + ' </td><td> ' + item.category + ' </td><td> ' + item.description + ' </td></tr>'
-             );
-             }
-             */
+                $("#jsGrid").jsGrid({
+                                width: "100%",
+                                height: "200px",
+                                onItemUpdated: function (arg) {
+                                    spendsDataManager.updateSpend(arg.item);
+                                },
+                                onItemDeleted: function (arg) {
+                                    spendsDataManager.deleteSpend(arg.item);
+                                },
 
-            $("#jsGrid").jsGrid({
-                width: "100%",
-                height: "200px",
-                onItemUpdated: function (arg) {
-                    spendsDataManager.updateSpend(arg.item);
-                },
-                onItemDeleted: function (arg) {
-                    spendsDataManager.deleteSpend(arg.item);
-                },
+                                editing: true,
+                                sorting: true,
+                                paging: true,
 
-                editing: true,
-                sorting: true,
-                paging: true,
+                                data: spends,
 
-                data: spends,
-
-                fields: [
-                    {name: "spendDate", title: "Дата", align: "center", type: "text"},
-                    {name: "sum", title: "Сумма", align: "center", type: "number"},
-                    {name: "category", title: "Категория", align: "center", type: "text"},
-                    {name: "description", title: "Описание", align: "center", type: "textarea"},
-                    {type: "control", editButton: true, deleteButton: true}
-                ]
-            })
+                                fields: [
+                                    {name: "spendDate", title: "Дата", align: "center", type: "text"},
+                                    {name: "sum", title: "Сумма", align: "center", type: "number"},
+                                    //TODO нездоровый селект
+                                    {name: "category_id", title: "Категория", align: "center", items: categories, valueField: "id",textField: "categoryName", type: "select" },
+                                    {name: "description", title: "Описание", align: "center", type: "textarea"},
+                                    {type: "control", editButton: true, deleteButton: true}
+                                ]
+                            })
+        })
 
 
         });
