@@ -64,6 +64,32 @@ var spendsUI = {
     },
 
     setDetailedSpends: function (start, end) {
+
+    var MyDateField = function(config) {
+        jsGrid.Field.call(this, config);
+    };
+
+    MyDateField.prototype = new jsGrid.Field({
+
+        sorter: function(date1, date2) {
+            return date1 - date2;
+        },
+
+        itemTemplate: function(value) {
+            return spendsUI.unixTimeToString(value);
+        },
+
+        editTemplate: function(value) {
+            return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value*1000));
+        },
+
+        editValue: function() {
+            return this._editPicker.datepicker("getDate").toISOString();
+        }
+    });
+
+    jsGrid.fields.date = MyDateField;
+
         spendsDataManager.getSpends(start, end, function (spends) {
 
              spendsDataManager.getCategories(function(categories){
@@ -85,7 +111,7 @@ var spendsUI = {
                                 data: spends,
 
                                 fields: [
-                                    {name: "spendDate", title: "Дата", align: "center", type: "text"},
+                                    {name: "spendDate", title: "Дата", align: "center", type: "date"},
                                     {name: "sum", title: "Сумма", align: "center", type: "number"},
                                     //TODO нездоровый селект
                                     {name: "category_id", title: "Категория", align: "center", items: categories, valueField: "id",textField: "categoryName", type: "select" },
@@ -93,9 +119,7 @@ var spendsUI = {
                                     {type: "control", editButton: true, deleteButton: true}
                                 ]
                             })
-        })
-
-
+                })
         });
     },
 
