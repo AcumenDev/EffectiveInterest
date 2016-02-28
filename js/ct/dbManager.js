@@ -91,7 +91,7 @@ var spendsDataManager = {
         }
 
         this.db.transaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "UPDATE spends SET sum=?,description=?,category_id=?,spend_date=? WHERE id=?", [item.sum, item.description, item.category, item.spendDate, item.id])
+            spendsDataManager.executeAndShowSql(tx, "UPDATE spends SET sum=?,description=?,category_id=?,spend_date=? WHERE id=?", [item.sum, item.description, item.category_id, item.spendDate, item.id])
         });
     },
 
