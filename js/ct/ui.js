@@ -65,61 +65,80 @@ var spendsUI = {
 
     setDetailedSpends: function (start, end) {
 
-    var MyDateField = function(config) {
-        jsGrid.Field.call(this, config);
-    };
+        var MyDateField = function (config) {
+            jsGrid.Field.call(this, config);
+        };
 
-    MyDateField.prototype = new jsGrid.Field({
+        MyDateField.prototype = new jsGrid.Field({
 
-        sorter: function(date1, date2) {
-            return date1 - date2;
-        },
+            sorter: function (date1, date2) {
+                return date1 - date2;
+            },
 
-        itemTemplate: function(value) {
-            return spendsUI.unixTimeToString(value);
-        },
+            itemTemplate: function (value) {
+                return spendsUI.unixTimeToString(value);
+            },
 
-        editTemplate: function(value) {
-            return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value*1000));
-        },
+            editTemplate: function (value) {
+                this._editPicker = $("<input>");
 
-        editValue: function() {
-            return this._editPicker.datepicker("getDate").toISOString();
-        }
-    });
+                this._editPicker.datepicker({
+                    format: 'mm/dd/yyyy',
+                    todayBtn: true,
+                    language: "ru",
+                    autoclose: true,
+                    todayHighlight: true,
+                    toggleActive: true
+                });
+                this._editPicker.datepicker("setDate", new Date(value * 1000));
+                return this._editPicker;
+            },
 
-    jsGrid.fields.date = MyDateField;
+            editValue: function () {
+                return Date.parse(this._editPicker.val()) / 1000;
+            }
+        });
+
+        jsGrid.fields.date = MyDateField;
 
         spendsDataManager.getSpends(start, end, function (spends) {
 
-             spendsDataManager.getCategories(function(categories){
+            spendsDataManager.getCategories(function (categories) {
 
                 $("#jsGrid").jsGrid({
-                                width: "100%",
-                                height: "200px",
-                                onItemUpdated: function (arg) {
-                                    spendsDataManager.updateSpend(arg.item);
-                                },
-                                onItemDeleted: function (arg) {
-                                    spendsDataManager.deleteSpend(arg.item);
-                                },
+                    width: "100%",
+                    height: "200px",
+                    onItemUpdated: function (arg) {
+                        spendsDataManager.updateSpend(arg.item);
+                    },
+                    onItemDeleted: function (arg) {
+                        spendsDataManager.deleteSpend(arg.item);
+                    },
 
-                                editing: true,
-                                sorting: true,
-                                paging: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
 
-                                data: spends,
+                    data: spends,
 
-                                fields: [
-                                    {name: "spendDate", title: "Дата", align: "center", type: "date"},
-                                    {name: "sum", title: "Сумма", align: "center", type: "number"},
-                                    //TODO нездоровый селект
-                                    {name: "category_id", title: "Категория", align: "center", items: categories, valueField: "id",textField: "categoryName", type: "select" },
-                                    {name: "description", title: "Описание", align: "center", type: "textarea"},
-                                    {type: "control", editButton: true, deleteButton: true}
-                                ]
-                            })
+                    fields: [
+                        {name: "spendDate", title: "Дата", align: "center", type: "date"},
+                        {name: "sum", title: "Сумма", align: "center", type: "number"},
+                        //TODO нездоровый селект
+                        {
+                            name: "category_id",
+                            title: "Категория",
+                            align: "center",
+                            items: categories,
+                            valueField: "id",
+                            textField: "categoryName",
+                            type: "select"
+                        },
+                        {name: "description", title: "Описание", align: "center", type: "textarea"},
+                        {type: "control", editButton: true, deleteButton: true}
+                    ]
                 })
+            })
         });
     },
 
