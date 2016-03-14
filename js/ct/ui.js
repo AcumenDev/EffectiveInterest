@@ -1,10 +1,30 @@
 var spendsUI = {
 
-    getSpendsCurrentDay: function () {
+    getDetailedSpendsForPeriod: function () {
         var fromDate = spendsUI.context.find($("input[name='spendsFromDate']"));
         var start = Date.parse(fromDate.val()) / 1000;
         var toDate = spendsUI.context.find($("input[name='spendsToDate']"));
         var end = Date.parse(toDate.val()) / 1000;
+
+        var isValid = true;
+
+        if ( isNaN(start)|| isNaN(end) || start > end)
+        {
+            isValid = false;
+        }
+
+        if (!isValid)
+        {
+            spendsUI.context.find($("input[name='spendsFromDate']")).css('border-color', 'red');
+            spendsUI.context.find($("input[name='spendsToDate']")).css('border-color', 'red');
+            return;
+        }
+        else
+        {
+            spendsUI.context.find($("input[name='spendsFromDate']")).css('border-color', '');
+            spendsUI.context.find($("input[name='spendsToDate']")).css('border-color', '');
+        }
+
         spendsUI.setDetailedSpends(start, end);
     },
 
@@ -12,10 +32,10 @@ var spendsUI = {
         this.context = $("#section_expense_report");
         this.setCategories();
         this.setDatepicker();
-        this.getSpendsCurrentDay();
+        this.getDetailedSpendsForPeriod();
         this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
-        this.context.find("button[name='refreshSpendsButton']").bind("click", this.getSpendsCurrentDay);
+        this.context.find("button[name='refreshSpendsButton']").bind("click", this.getDetailedSpendsForPeriod);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
     },
@@ -206,7 +226,6 @@ var spendsUI = {
         var description = descriptionText.val();
 
         var isValidForm = true;
-
 
         if (!date) {
             spendDate.css('border-color', 'red');
