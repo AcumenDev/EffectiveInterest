@@ -1,12 +1,11 @@
 var spendsUI = {
 
     getSpendsCurrentDay: function () {
-        var start = new Date();
-        start.setHours(0, 0, 0, 0);
-
-        var end = new Date();
-        end.setHours(23, 59, 59, 999);
-        this.setDetailedSpends(start.getTime() / 1000, end.getTime() / 1000);
+        var fromDate = spendsUI.context.find($("input[name='spendsFromDate']"));
+        var start = Date.parse(fromDate.val()) / 1000;
+        var toDate = spendsUI.context.find($("input[name='spendsToDate']"));
+        var end = Date.parse(toDate.val()) / 1000;
+        spendsUI.setDetailedSpends(start, end);
     },
 
     init: function () {
@@ -16,9 +15,12 @@ var spendsUI = {
         this.getSpendsCurrentDay();
         this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
+        this.context.find("button[name='refreshSpendsButton']").bind("click", this.getSpendsCurrentDay);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
     },
+
+
 
     unixTimeToString: function (time) {
         //Ущербный код ))) очень)))
@@ -153,6 +155,28 @@ var spendsUI = {
             toggleActive: true
         });
         datapicker.datepicker("setDate", new Date());
+
+        var spendsFromDatepicker = this.context.find("input[name='spendsFromDate']");
+        spendsFromDatepicker.datepicker({
+            format: 'mm/dd/yyyy',
+            todayBtn: true,
+            language: "ru",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
+        spendsFromDatepicker.datepicker("setDate", new Date());
+
+        var spendsToDatepicker = this.context.find("input[name='spendsToDate']");
+        spendsToDatepicker.datepicker({
+            format: 'mm/dd/yyyy',
+            todayBtn: true,
+            language: "ru",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+            });
+            spendsToDatepicker.datepicker("setDate", new Date());
     },
 
     showCategoryAddModal: function () {
