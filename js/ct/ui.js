@@ -35,7 +35,8 @@ var spendsUI = {
         this.getDetailedSpendsForPeriod();
         this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
-        this.context.find("button[name='refreshSpendsButton']").bind("click", this.getDetailedSpendsForPeriod);
+        this.context.find("input[name='spendsFromDate']").bind("change",this.getDetailedSpendsForPeriod);
+        this.context.find("input[name='spendsToDate']").bind("change",this.getDetailedSpendsForPeriod);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
     },
@@ -256,7 +257,7 @@ var spendsUI = {
 
         descriptionText.val('');
         sumText.val('');
-        spendsUI.getSpendsCurrentDay();
+        spendsUI.getDetailedSpendsForPeriod();
         spendsUI.monthReport();
     }
 };
