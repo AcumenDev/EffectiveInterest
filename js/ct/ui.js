@@ -73,7 +73,7 @@ var spendsUI = {
             select.empty();
 
             if (!categories.length > 0) {
-                select.append($('<option selected="selected" value="-1" disabled="disabled">-Select category-</option>'));
+                select.append($('<option selected="selected" value="-1" disabled="disabled">-Выберите категорию-</option>'));
             }
 
             for (var i = 0; i < categories.length; i++) {
@@ -159,7 +159,9 @@ var spendsUI = {
                         },
                         {name: "description", title: "Описание", align: "center", type: "textarea"},
                         {type: "control", editButton: true, deleteButton: true}
-                    ]
+                    ],
+					noDataContent: "За выбранный период ничего не найдено",
+					deleteConfirm: "Вы уверены?"
                 })
             })
         });
