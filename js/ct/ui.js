@@ -8,19 +8,16 @@ var spendsUI = {
 
         var isValid = true;
 
-        if ( isNaN(start)|| isNaN(end) || start > end)
-        {
+        if (isNaN(start) || isNaN(end) || start > end) {
             isValid = false;
         }
 
-        if (!isValid)
-        {
+        if (!isValid) {
             spendsUI.context.find($("input[name='spendsFromDate']")).css('border-color', 'red');
             spendsUI.context.find($("input[name='spendsToDate']")).css('border-color', 'red');
             return;
         }
-        else
-        {
+        else {
             spendsUI.context.find($("input[name='spendsFromDate']")).css('border-color', '');
             spendsUI.context.find($("input[name='spendsToDate']")).css('border-color', '');
         }
@@ -35,12 +32,11 @@ var spendsUI = {
         this.getDetailedSpendsForPeriod();
         this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
-        this.context.find("input[name='spendsFromDate']").bind("change",this.getDetailedSpendsForPeriod);
-        this.context.find("input[name='spendsToDate']").bind("change",this.getDetailedSpendsForPeriod);
+        this.context.find("input[name='spendsFromDate']").bind("change", this.getDetailedSpendsForPeriod);
+        this.context.find("input[name='spendsToDate']").bind("change", this.getDetailedSpendsForPeriod);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
     },
-
 
 
     unixTimeToString: function (time) {
@@ -160,46 +156,29 @@ var spendsUI = {
                         {name: "description", title: "Описание", align: "center", type: "textarea"},
                         {type: "control", editButton: true, deleteButton: true}
                     ],
-					noDataContent: "За выбранный период ничего не найдено",
-					deleteConfirm: "Вы уверены?"
+                    noDataContent: "За выбранный период ничего не найдено",
+                    deleteConfirm: "Вы уверены?"
                 })
             })
         });
     },
 
+    bindDatePicker: function (bindToObject, value) {
+        bindToObject.datepicker({
+            format: 'mm/dd/yyyy',
+            todayBtn: true,
+            language: "ru",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
+        bindToObject.datepicker("setDate", value);
+    },
+
     setDatepicker: function () {
-        var datapicker = this.context.find("input[name='spendDate']");
-        datapicker.datepicker({
-            format: 'mm/dd/yyyy',
-            todayBtn: true,
-            language: "ru",
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true
-        });
-        datapicker.datepicker("setDate", new Date());
-
-        var spendsFromDatepicker = this.context.find("input[name='spendsFromDate']");
-        spendsFromDatepicker.datepicker({
-            format: 'mm/dd/yyyy',
-            todayBtn: true,
-            language: "ru",
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true
-        });
-        spendsFromDatepicker.datepicker("setDate", new Date());
-
-        var spendsToDatepicker = this.context.find("input[name='spendsToDate']");
-        spendsToDatepicker.datepicker({
-            format: 'mm/dd/yyyy',
-            todayBtn: true,
-            language: "ru",
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true
-            });
-            spendsToDatepicker.datepicker("setDate", new Date());
+        this.bindDatePicker(this.context.find("input[name='spendDate']"),new Date())
+        this.bindDatePicker(this.context.find("input[name='spendsFromDate']"),new Date())
+        this.bindDatePicker(this.context.find("input[name='spendsToDate']"),new Date())
     },
 
     showCategoryAddModal: function () {
