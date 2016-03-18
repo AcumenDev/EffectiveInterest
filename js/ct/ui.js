@@ -133,9 +133,11 @@ var spendsUI = {
                     height: "200px",
                     onItemUpdated: function (arg) {
                         spendsDataManager.updateSpend(arg.item);
+                        spendsUI.monthReport();
                     },
                     onItemDeleted: function (arg) {
                         spendsDataManager.deleteSpend(arg.item);
+                        spendsUI.monthReport();
                     },
 
                     editing: true,
@@ -147,7 +149,6 @@ var spendsUI = {
                     fields: [
                         {name: "spendDate", title: "Дата", align: "center", type: "date"},
                         {name: "sum", title: "Сумма", align: "center", type: "number"},
-                        //TODO нездоровый селект
                         {
                             name: "category_id",
                             title: "Категория",
@@ -157,7 +158,7 @@ var spendsUI = {
                             textField: "categoryName",
                             type: "select"
                         },
-                        {name: "description", title: "Описание", align: "center", type: "textarea"},
+                        {name: "description", title: "Комментарий", align: "center", type: "textarea"},
                         {type: "control", editButton: true, deleteButton: true}
                     ]
                 })
