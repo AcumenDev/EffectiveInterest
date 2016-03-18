@@ -85,14 +85,19 @@
                 <label>Выберите категорию затрат:</label>
                 <select class="form-control" name="spendСategory"></select>
             </div>
-            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">Добавить категорию
+            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				Добавить категорию
             </button>
         </div>
         <div class="form-group">
             <label>Ведите описание затраченной суммы:</label>
             <input type="text" name="spendDescription" class="form-control" placeholder="Описание...">
         </div>
-        <button type="button" name="addSpendButton" class="btn btn-success">Добавить</button>
+        <button type="button" name="addSpendButton" class="btn btn-success">
+			<span class="glyphicon glyphicon-ok-circle"></span>
+			Добавить
+		</button>
     </div>
     <div class="rightcolumn">
         <div class="panel panel-default">
@@ -101,7 +106,7 @@
                 <table class="table table-condensed monthReport-table">
                     <tr>
                         <th> Категория</th>
-                        <th> Сумма</th>
+                        <th> Сумма, руб.</th>
                     </tr>
                     <tr class="blank">
                         <td>{{category}}</td>
