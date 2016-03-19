@@ -1,23 +1,43 @@
 var spendsUI = {
-    getSpendsCurrentDay: function () {
-        var start = new Date();
-        start.setHours(0, 0, 0, 0);
 
-        var end = new Date();
-        end.setHours(23, 59, 59, 999);
-        this.setDetailedSpends(start.getTime() / 1000, end.getTime() / 1000);
+    getDetailedSpendsForPeriod: function () {
+        var fromDate = spendsUI.context.find($("input[name='spendsFromDate']"));
+        var start = Date.parse(fromDate.val()) / 1000;
+        var toDate = spendsUI.context.find($("input[name='spendsToDate']"));
+        var end = Date.parse(toDate.val()) / 1000;
+
+        var isValid = true;
+
+        if (isNaN(start) || isNaN(end) || start > end) {
+            isValid = false;
+        }
+
+        if (!isValid) {
+            spendsUI.context.find($("input[name='spendsFromDate']")).css('border-color', 'red');
+            spendsUI.context.find($("input[name='spendsToDate']")).css('border-color', 'red');
+            return;
+        }
+        else {
+            spendsUI.context.find($("input[name='spendsFromDate']")).css('border-color', '');
+            spendsUI.context.find($("input[name='spendsToDate']")).css('border-color', '');
+        }
+
+        spendsUI.setDetailedSpends(start, end);
     },
 
     init: function () {
         this.context = $("#section_expense_report");
         this.setCategories();
         this.setDatepicker();
-        this.getSpendsCurrentDay();
+        this.getDetailedSpendsForPeriod();
         this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
+        this.context.find("input[name='spendsFromDate']").bind("change", this.getDetailedSpendsForPeriod);
+        this.context.find("input[name='spendsToDate']").bind("change", this.getDetailedSpendsForPeriod);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
     },
+
 
     unixTimeToString: function (time) {
         //Ущербный код ))) очень)))
@@ -49,7 +69,7 @@ var spendsUI = {
             select.empty();
 
             if (!categories.length > 0) {
-                select.append($('<option selected="selected" value="-1" disabled="disabled">-Select category-</option>'));
+                select.append($('<option selected="selected" value="-1" disabled="disabled">-Выберите категорию-</option>'));
             }
 
             for (var i = 0; i < categories.length; i++) {
@@ -63,54 +83,89 @@ var spendsUI = {
     },
 
     setDetailedSpends: function (start, end) {
+
+        var MyDateField = function (config) {
+            jsGrid.Field.call(this, config);
+        };
+
+        MyDateField.prototype = new jsGrid.Field({
+
+            sorter: function (date1, date2) {
+                return date1 - date2;
+            },
+
+            itemTemplate: function (value) {
+                return spendsUI.unixTimeToString(value);
+            },
+
+            editTemplate: function (value) {
+                this._editPicker = $("<input>");
+
+                this._editPicker.datepicker({
+                    format: 'mm/dd/yyyy',
+                    todayBtn: true,
+                    language: "ru",
+                    autoclose: true,
+                    todayHighlight: true,
+                    toggleActive: true
+                });
+                this._editPicker.datepicker("setDate", new Date(value * 1000));
+                return this._editPicker;
+            },
+
+            editValue: function () {
+                return Date.parse(this._editPicker.val()) / 1000;
+            }
+        });
+
+        jsGrid.fields.date = MyDateField;
+
         spendsDataManager.getSpends(start, end, function (spends) {
 
-            /*
-             spendsUI.context.find("#showSpendForm").empty().append(
-             $('<table class="table" id="spendsTable"><tr><td> id </td><td> дата </td><td> сумма </td><td> категория </td><td> описание </td></tr></table>')
-             );
+            spendsDataManager.getCategories(function (categories) {
 
-             for (var i = 0; i < spends.length; i++) {
-             var item = spends[i];
-             spendsUI.context.find("#spendsTable").append(
-             '<tr><td> ' + item.id + ' </td><td> ' +
-             spendsUI.unixTimeToString(item.spendDate) + ' </td><td> ' + item.sum + ' </td><td> ' + item.category + ' </td><td> ' + item.description + ' </td></tr>'
-             );
-             }
-             */
+                $("#spendsJsGrid").jsGrid({
+                    width: "100%",
+                    height: "200px",
+                    onItemUpdated: function (arg) {
+                        spendsDataManager.updateSpend(arg.item);
+                        spendsUI.monthReport();
+                    },
+                    onItemDeleted: function (arg) {
+                        spendsDataManager.deleteSpend(arg.item);
+                        spendsUI.monthReport();
+                    },
 
-            $("#jsGrid").jsGrid({
-                width: "100%",
-                height: "200px",
-                onItemUpdated: function (arg) {
-                    spendsDataManager.updateSpend(arg.item);
-                },
-                onItemDeleted: function (arg) {
-                    spendsDataManager.deleteSpend(arg.item);
-                },
+                    editing: true,
+                    sorting: true,
+                    paging: true,
 
-                editing: true,
-                sorting: true,
-                paging: true,
+                    data: spends,
 
-                data: spends,
-
-                fields: [
-                    {name: "spendDate", title: "Дата", align: "center", type: "text"},
-                    {name: "sum", title: "Сумма", align: "center", type: "number"},
-                    {name: "category", title: "Категория", align: "center", type: "text"},
-                    {name: "description", title: "Описание", align: "center", type: "textarea"},
-                    {type: "control", editButton: true, deleteButton: true}
-                ]
+                    fields: [
+                        {name: "spendDate", title: "Дата", align: "center", type: "date"},
+                        {name: "sum", title: "Сумма", align: "center", type: "number"},
+                        {
+                            name: "category_id",
+                            title: "Категория",
+                            align: "center",
+                            items: categories,
+                            valueField: "id",
+                            textField: "categoryName",
+                            type: "select"
+                        },
+                        {name: "description", title: "Комментарий", align: "center", type: "text"},
+                        {type: "control", editButton: true, deleteButton: true}
+                    ],
+                    noDataContent: "За выбранный период ничего не найдено...",
+                    deleteConfirm: "Вы уверены?"
+                })
             })
-
-
         });
     },
 
-    setDatepicker: function () {
-        var datapicker = this.context.find("input[name='spendDate']");
-        datapicker.datepicker({
+    bindDatePicker: function (bindToObject, value) {
+        bindToObject.datepicker({
             format: 'mm/dd/yyyy',
             todayBtn: true,
             language: "ru",
@@ -118,7 +173,13 @@ var spendsUI = {
             todayHighlight: true,
             toggleActive: true
         });
-        datapicker.datepicker("setDate", new Date());
+        bindToObject.datepicker("setDate", value);
+    },
+
+    setDatepicker: function () {
+        this.bindDatePicker(this.context.find("input[name='spendDate']"),new Date())
+        this.bindDatePicker(this.context.find("input[name='spendsFromDate']"),new Date())
+        this.bindDatePicker(this.context.find("input[name='spendsToDate']"),new Date())
     },
 
     showCategoryAddModal: function () {
@@ -149,7 +210,6 @@ var spendsUI = {
 
         var isValidForm = true;
 
-
         if (!date) {
             spendDate.css('border-color', 'red');
             isValidForm = false;
@@ -179,7 +239,7 @@ var spendsUI = {
 
         descriptionText.val('');
         sumText.val('');
-        spendsUI.getSpendsCurrentDay();
+        spendsUI.getDetailedSpendsForPeriod();
         spendsUI.monthReport();
     }
 };

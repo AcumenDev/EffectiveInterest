@@ -1,3 +1,14 @@
+.leftcolumn {
+    width: 27%;
+    float: left;
+    padding-right: 10px;
+}
+
+.rightcolumn {
+    width: 73%;
+    float: right;
+    padding-left: 10px;
+}
 .settings-form {
     width: 200px;
     padding-left: 10px;

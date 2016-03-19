@@ -67,7 +67,6 @@
     <div id="addSpendForm" class="leftcolumn">
         <div class="form-group">
             <label>Выберите дату:</label>
-
             <div class="input-group">
                 <input type="text" name="spendDate" class="form-control" placeholder="Выберите дату..."/>
                 <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
@@ -75,7 +74,6 @@
         </div>
         <div class="form-group">
             <label>Введите затраченную сумму:</label>
-
             <div class="input-group">
                 <input type="text" name="spendSum" class="form-control" placeholder="Сумма..."
                        aria-describedby="basic-addon1">
@@ -87,14 +85,19 @@
                 <label>Выберите категорию затрат:</label>
                 <select class="form-control" name="spendСategory"></select>
             </div>
-            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">Добавить категорию
+            <button type="button" name="addCategoryButton" class="btn btn-small btn-success">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				Добавить категорию
             </button>
         </div>
         <div class="form-group">
             <label>Ведите описание затраченной суммы:</label>
             <input type="text" name="spendDescription" class="form-control" placeholder="Описание...">
         </div>
-        <button type="button" name="addSpendButton" class="btn btn-success">Добавить</button>
+        <button type="button" name="addSpendButton" class="btn btn-success">
+			<span class="glyphicon glyphicon-ok-circle"></span>
+			Добавить
+		</button>
     </div>
     <div class="rightcolumn">
         <div class="panel panel-default">
@@ -102,8 +105,8 @@
             <div class="panel-body">
                 <table class="table table-condensed monthReport-table">
                     <tr>
-                        <th> категория</th>
-                        <th> сумма</th>
+                        <th> Категория</th>
+                        <th> Сумма, руб.</th>
                     </tr>
                     <tr class="blank">
                         <td>{{category}}</td>
@@ -115,9 +118,25 @@
                 </table>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading text-center">Отчет за сегодня</div>
-            <div id="jsGrid">
+        <div class="form-group">
+            <div class="form-group">
+                <div class="form-inline">
+                    <label>Отчет за:</label>
+                    <div class="input-group">
+                        <input type="text" name="spendsFromDate" class="form-control" placeholder="C..."/>
+                        <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
+                    </div>
+                    -
+                    <div class="input-group">
+                        <input type="text" name="spendsToDate" class="form-control" placeholder="По..."/>
+                        <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="panel panel-default">
+                    <div id="spendsJsGrid"></div>
+                </div>
             </div>
         </div>
     </div>
