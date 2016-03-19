@@ -5,14 +5,14 @@
     <title>Кабинет инвестора</title>
     <link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
-    <script src="libs/jquery-2.1.4.min.js">
-    </script>
-    <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js">
-    </script>
-    <script src="js/ct/dbManager.js">
-    </script>
-    <script src="js/settings.js">
-    </script>
+    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid.min.css" />
+    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid-theme.min.css" />
+
+    <script src="libs/jquery-2.1.4.min.js"></script>
+    <script src="libs/jsgrid-1.4.0/jsgrid.js"></script>
+    <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script src="js/ct/dbManager.js"></script>
+    <script src="js/st/categoriesEdit.js"></script>
 </head>
 <body>
 
@@ -39,9 +39,12 @@
 </div>
 
 <div class="rightcolumn">
-
-    редактирование категорий
-
+    <div class="panel panel-default">
+        <div class="panel-heading">Редактирвоание категорий трат</div>
+        <div class="panel-body">
+            <div id="categoriesJsGrid"></div>
+        </div>
+    </div>
 </div>
 
 </body>

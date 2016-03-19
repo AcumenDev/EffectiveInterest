@@ -31,6 +31,23 @@ var spendsDataManager = {
         });
     },
 
+    executeAndShowSql: function (tx, sql, param, callback, errorCallback) {
+            var positionParam = 0;
+            newString = sql.replace(new RegExp("\\?", 'g'), function (str, p1, p2, offset, s) {
+                positionParam++;
+                return param[positionParam - 1];
+            });
+            console.log(this.logTag + "'" + newString + "'");
+
+            if (errorCallback == null) {
+                errorCallback = function (transaction, error) {
+                    console.error(spendsDataManager.logTag + "errorCode: " + error.code + " message: " + error.message);
+                };
+            }
+
+            tx.executeSql(sql, param, callback, errorCallback);
+    },
+
     getCategories: function (resultCallback) {
         this.db.readTransaction(function (tx) {
             spendsDataManager.executeAndShowSql(tx, "SELECT * FROM categories", [], function (tx, categories) {
@@ -58,6 +75,27 @@ var spendsDataManager = {
         });
     },
 
+    updateCategory:function(item){
+        if (item == null) {
+            return;
+        }
+
+        this.db.transaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "UPDATE categories SET name=? WHERE id=?", [item.categoryName, item.id]);
+        });
+    },
+
+    deleteCategory:function(item){
+        if (item == null) {
+            return;
+        }
+
+        this.db.transaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "DELETE FROM spends WHERE category_id = ?", [item.id]);
+            spendsDataManager.executeAndShowSql(tx, "DELETE FROM categories WHERE id= ?", [item.id])
+        });
+    },
+
     addSpend: function (spend) {
         this.db.transaction(function (tx) {
             if (spend.id == null) {
@@ -66,23 +104,6 @@ var spendsDataManager = {
                 spendsDataManager.executeAndShowSql(tx, "INSERT INTO spends (id,sum,description,category_id,spend_date) VALUES (?,?,?,?,?)", [spend.id, spend.sum, spend.description, spend.categoryId, spend.date]);
             }
         });
-    },
-
-    executeAndShowSql: function (tx, sql, param, callback, errorCallback) {
-        var positionParam = 0;
-        newString = sql.replace(new RegExp("\\?", 'g'), function (str, p1, p2, offset, s) {
-            positionParam++;
-            return param[positionParam - 1];
-        });
-        console.log(this.logTag + "'" + newString + "'");
-
-        if (errorCallback == null) {
-            errorCallback = function (transaction, error) {
-                console.error(spendsDataManager.logTag + "errorCode: " + error.code + " message: " + error.message);
-            };
-        }
-
-        tx.executeSql(sql, param, callback, errorCallback);
     },
 
     updateSpend: function (item) {

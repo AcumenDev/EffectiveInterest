@@ -124,7 +124,7 @@ var spendsUI = {
 
             spendsDataManager.getCategories(function (categories) {
 
-                $("#jsGrid").jsGrid({
+                $("#spendsJsGrid").jsGrid({
                     width: "100%",
                     height: "200px",
                     onItemUpdated: function (arg) {
@@ -154,10 +154,10 @@ var spendsUI = {
                             textField: "categoryName",
                             type: "select"
                         },
-                        {name: "description", title: "Комментарий", align: "center", type: "textarea"},
+                        {name: "description", title: "Комментарий", align: "center", type: "text"},
                         {type: "control", editButton: true, deleteButton: true}
                     ],
-                    noDataContent: "За выбранный период ничего не найдено",
+                    noDataContent: "За выбранный период ничего не найдено...",
                     deleteConfirm: "Вы уверены?"
                 })
             })
