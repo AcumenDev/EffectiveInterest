@@ -68,9 +68,9 @@ var spendsDataManager = {
     addCategory: function (category) {
         this.db.transaction(function (tx) {
             if (category.id == null) {
-                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (name) VALUES (?)", [category.name]);
+                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (name) VALUES (?)", [category.categoryName]);
             } else {
-                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,name) VALUES (?,?)", [category.id, category.name]);
+                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,name) VALUES (?,?)", [category.id, category.categoryName]);
             }
         });
     },

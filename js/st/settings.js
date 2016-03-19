@@ -10,7 +10,7 @@ var settings = {
     },
 
     exportInit: function () {
-        $("input[name='export_db']").bind("click", function (e) {
+        $("button[name='export_db']").bind("click", function (e) {
             e.preventDefault();
             console.log("Begin backup process");
             $.when(

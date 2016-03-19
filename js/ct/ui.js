@@ -191,7 +191,7 @@ var spendsUI = {
         // Метод добавления категории из модального окна
         var newCategory = $("#addCategoryModal").find("input[name='newCategoryName']").val();
         if (newCategory != null) {
-            spendsDataManager.addCategory({"name": newCategory});
+            spendsDataManager.addCategory({"categoryName": newCategory});
         }
         $("#addCategoryModal").modal('hide');
         spendsUI.setCategories(newCategory);

@@ -16,6 +16,10 @@ var categoriesEdit = {
 
                  width: "100%",
                  height: "200px",
+                 onItemInserted: function(arg) {
+                    spendsDataManager.addCategory(arg.item);
+                 },
+
                  onItemUpdated: function (arg) {
                     spendsDataManager.updateCategory(arg.item);
                  },
@@ -26,6 +30,7 @@ var categoriesEdit = {
                  editing: true,
                  sorting: true,
                  paging: true,
+                 inserting: true,
 
                  data: categories,
 
@@ -35,7 +40,7 @@ var categoriesEdit = {
                  ],
 
                  noDataContent: "Добавьте категории...",
-                 deleteConfirm: "Это приведет к удалению связанных с категорие трат! Вы уверены?"
+                 deleteConfirm: "Это приведет к удалению связанных с категорией затрат! Вы уверены?"
              });
         });
     }
