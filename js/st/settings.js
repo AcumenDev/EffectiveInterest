@@ -7,6 +7,30 @@ var settings = {
     init: function () {
         this.exportInit();
         this.importInit();
+
+        $("button[name='deleteAllButton']").bind("click", function () {
+            if (confirm("Вы уверены?"))
+            {
+                spendsDataManager.clearDb();
+            }
+            else return;
+        });
+
+        $("button[name='deleteCategoriesButton']").bind("click", function () {
+            if (confirm("Вы уверены?"))
+            {
+                spendsDataManager.clearDb("categories");
+            }
+            else return;
+        });
+
+        $("button[name='deleteSpendsButton']").bind("click", function () {
+            if (confirm("Вы уверены?"))
+            {
+                spendsDataManager.clearDb("spends");
+            }
+            else return;
+        });
     },
 
     exportInit: function () {

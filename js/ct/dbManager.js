@@ -91,7 +91,6 @@ var spendsDataManager = {
         }
 
         this.db.transaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "DELETE FROM spends WHERE category_id = ?", [item.id]);
             spendsDataManager.executeAndShowSql(tx, "DELETE FROM categories WHERE id= ?", [item.id])
         });
     },
@@ -216,14 +215,32 @@ var spendsDataManager = {
         }
     },
 
-    clearDb: function () {
-        var tableNames = ['spends', 'categories', 'sqlite_sequence'];
+    clearDb: function (table) {
 
-        this.db.transaction(function (tx) {
-            for (var i = 0; i < tableNames.length; i++) {
-                spendsDataManager.executeAndShowSql(tx, "delete from " + tableNames[i] + ";")
-            }
-        });
+        if (table === undefined)
+        {
+            var tableNames = ['spends', 'categories', 'sqlite_sequence'];
+            this.db.transaction(function (tx) {
+                for (var i = 0; i < tableNames.length; i++) {
+                    spendsDataManager.executeAndShowSql(tx, "delete from " + tableNames[i] + ";")
+                }
+            });
+            return;
+        }
+        if (table == 'spends')
+        {
+            this.db.transaction(function (tx) {
+                spendsDataManager.executeAndShowSql(tx, "delete from " + table + ";")
+            });
+            return;
+        }
+        if (table == 'categories')
+        {
+            this.db.transaction(function (tx) {
+                spendsDataManager.executeAndShowSql(tx, "delete from " + table + ";")
+            });
+            return;
+        }
     },
 
     init: function () {

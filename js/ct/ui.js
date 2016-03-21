@@ -100,16 +100,7 @@ var spendsUI = {
 
             editTemplate: function (value) {
                 this._editPicker = $("<input>");
-
-                this._editPicker.datepicker({
-                    format: 'mm/dd/yyyy',
-                    todayBtn: true,
-                    language: "ru",
-                    autoclose: true,
-                    todayHighlight: true,
-                    toggleActive: true
-                });
-                this._editPicker.datepicker("setDate", new Date(value * 1000));
+                spendsUI.bindDatePicker(this._editPicker,new Date(value * 1000));
                 return this._editPicker;
             },
 
@@ -129,6 +120,7 @@ var spendsUI = {
                     height: "200px",
                     onItemUpdated: function (arg) {
                         spendsDataManager.updateSpend(arg.item);
+                        spendsUI.getDetailedSpendsForPeriod();
                         spendsUI.monthReport();
                     },
                     onItemDeleted: function (arg) {
@@ -195,6 +187,7 @@ var spendsUI = {
         }
         $("#addCategoryModal").modal('hide');
         spendsUI.setCategories(newCategory);
+        spendsUI.getDetailedSpendsForPeriod();
     },
 
     addSpend: function () {
