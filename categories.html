@@ -33,16 +33,26 @@
 </nav>
 
 <div class="list-group leftcolumn">
-    <a href="settings.html" class="list-group-item">БД</a>
-    <a href="categories.html" class="list-group-item active">Категории затрат</a>
-    <a href="#" class="list-group-item">Периодические затраты</a>
+    <a href="settings.html" class="list-group-item">
+        БД
+        <span class="glyphicon glyphicon-export"></span>
+    </a>
+    <a href="categories.html" class="list-group-item active">
+        Категории затрат
+        <span class="glyphicon glyphicon-tags"></span>
+    </a>
+    <a href="#" class="list-group-item">
+        Периодические затраты
+        <span class="glyphicon glyphicon-calendar"></span>
+    </a>
 </div>
+
 
 <div class="rightcolumn">
     <div class="panel panel-default">
         <div class="panel-heading">Редактирвоание категорий трат</div>
         <div class="panel-body">
-            <div id="categoriesJsGrid"></div>
+            <div id="categoriesJsGrid" class="categories-table"></div>
         </div>
     </div>
 </div>

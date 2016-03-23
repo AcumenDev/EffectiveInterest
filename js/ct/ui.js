@@ -116,8 +116,8 @@ var spendsUI = {
             spendsDataManager.getCategories(function (categories) {
 
                 $("#spendsJsGrid").jsGrid({
-                    width: "100%",
-                    height: "200px",
+                    width: document.getElementById('spendsJsGrid').offsetWidth,
+                    height: document.getElementById('spendsJsGrid').offsetHeight,
                     onItemUpdated: function (arg) {
                         spendsDataManager.updateSpend(arg.item);
                         spendsUI.getDetailedSpendsForPeriod();
