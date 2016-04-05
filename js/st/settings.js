@@ -7,10 +7,34 @@ var settings = {
     init: function () {
         this.exportInit();
         this.importInit();
+
+        $("button[name='deleteAllButton']").bind("click", function () {
+            if (confirm("Вы уверены?"))
+            {
+                spendsDataManager.clearDb();
+            }
+            else return;
+        });
+
+        $("button[name='deleteCategoriesButton']").bind("click", function () {
+            if (confirm("Вы уверены?"))
+            {
+                spendsDataManager.clearDb("categories");
+            }
+            else return;
+        });
+
+        $("button[name='deleteSpendsButton']").bind("click", function () {
+            if (confirm("Вы уверены?"))
+            {
+                spendsDataManager.clearDb("spends");
+            }
+            else return;
+        });
     },
 
     exportInit: function () {
-        $("input[name='export_db']").bind("click", function (e) {
+        $("button[name='export_db']").bind("click", function (e) {
             e.preventDefault();
             console.log("Begin backup process");
             $.when(

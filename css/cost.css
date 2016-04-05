@@ -14,3 +14,8 @@
 .monthReport-table tr.blank {
     display: none;
 }
+
+.spends-table {
+     width: 100%;
+     height: 250px;
+}

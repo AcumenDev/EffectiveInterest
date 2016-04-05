@@ -31,6 +31,23 @@ var spendsDataManager = {
         });
     },
 
+    executeAndShowSql: function (tx, sql, param, callback, errorCallback) {
+            var positionParam = 0;
+            newString = sql.replace(new RegExp("\\?", 'g'), function (str, p1, p2, offset, s) {
+                positionParam++;
+                return param[positionParam - 1];
+            });
+            console.log(this.logTag + "'" + newString + "'");
+
+            if (errorCallback == null) {
+                errorCallback = function (transaction, error) {
+                    console.error(spendsDataManager.logTag + "errorCode: " + error.code + " message: " + error.message);
+                };
+            }
+
+            tx.executeSql(sql, param, callback, errorCallback);
+    },
+
     getCategories: function (resultCallback) {
         this.db.readTransaction(function (tx) {
             spendsDataManager.executeAndShowSql(tx, "SELECT * FROM categories", [], function (tx, categories) {
@@ -38,7 +55,8 @@ var spendsDataManager = {
                 for (var i = 0; i < categories.rows.length; i++) {
                     var row = categories.rows.item(i)
                     result[i] = {
-                        id: row.id,
+                        //TODO костыль для селекта грида
+                        id: row.id.toString(),
                         categoryName: row.name
                     }
                 }
@@ -50,10 +68,30 @@ var spendsDataManager = {
     addCategory: function (category) {
         this.db.transaction(function (tx) {
             if (category.id == null) {
-                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (name) VALUES (?)", [category.name]);
+                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (name) VALUES (?)", [category.categoryName]);
             } else {
-                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,name) VALUES (?,?)", [category.id, category.name]);
+                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,name) VALUES (?,?)", [category.id, category.categoryName]);
             }
+        });
+    },
+
+    updateCategory:function(item){
+        if (item == null) {
+            return;
+        }
+
+        this.db.transaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "UPDATE categories SET name=? WHERE id=?", [item.categoryName, item.id]);
+        });
+    },
+
+    deleteCategory:function(item){
+        if (item == null) {
+            return;
+        }
+
+        this.db.transaction(function (tx) {
+            spendsDataManager.executeAndShowSql(tx, "DELETE FROM categories WHERE id= ?", [item.id])
         });
     },
 
@@ -67,32 +105,13 @@ var spendsDataManager = {
         });
     },
 
-    executeAndShowSql: function (tx, sql, param, callback, errorCallback) {
-        var positionParam = 0;
-        newString = sql.replace(new RegExp("\\?", 'g'), function (str, p1, p2, offset, s) {
-            positionParam++;
-            return param[positionParam - 1];
-        });
-        console.log(this.logTag + "'" + newString + "'");
-
-        if (errorCallback == null) {
-            errorCallback = function (transaction, error) {
-                console.error(spendsDataManager.logTag + "errorCode: " + error.code + " message: " + error.message);
-            };
-        }
-
-        tx.executeSql(sql, param, callback, errorCallback);
-    },
-
     updateSpend: function (item) {
         if (item == null) {
             return;
         }
 
-        item.category = 1;
-
         this.db.transaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "UPDATE spends SET sum=?,description=?,category_id=?,spend_date=? WHERE id=?", [item.sum, item.description, item.category, item.spendDate, item.id])
+            spendsDataManager.executeAndShowSql(tx, "UPDATE spends SET sum=?,description=?,category_id=?,spend_date=? WHERE id=?", [item.sum, item.description, item.category_id, item.spendDate, item.id])
         });
     },
 
@@ -116,16 +135,16 @@ var spendsDataManager = {
         }
 
         this.db.readTransaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "SELECT s.id, s.spend_date, s.sum, s.description, c.name as 'category_name' FROM spends s LEFT JOIN categories c ON s.category_id= c.id WHERE (?=0 OR s.spend_date>=?) AND (?=0 OR s.spend_date<=?)", [dateFrom, dateFrom, dateTo, dateTo], function (tx, spends) {
+            spendsDataManager.executeAndShowSql(tx, "SELECT s.id, s.spend_date, s.sum, s.description, s.category_id FROM spends s WHERE (?=0 OR s.spend_date>=?) AND (?=0 OR s.spend_date<=?)", [dateFrom, dateFrom, dateTo, dateTo], function (tx, spends) {
                 var result = [];
                 for (var i = 0; i < spends.rows.length; i++) {
                     var row = spends.rows.item(i);
                     result[i] = {
                         id: row.id,
                         spendDate: row.spend_date,
-                        category: row.category_name,
+                        category_id: row.category_id,
                         sum: row.sum,
-                        description: row.description==null ? '' : row.description
+                        description: row.description == null ? '' : row.description
                     }
                 }
                 resultCollback(result);
@@ -196,14 +215,32 @@ var spendsDataManager = {
         }
     },
 
-    clearDb: function () {
-        var tableNames = ['spends', 'categories', 'sqlite_sequence'];
+    clearDb: function (table) {
 
-        this.db.transaction(function (tx) {
-            for (var i = 0; i < tableNames.length; i++) {
-                spendsDataManager.executeAndShowSql(tx, "delete from " + tableNames[i] + ";")
-            }
-        });
+        if (table === undefined)
+        {
+            var tableNames = ['spends', 'categories', 'sqlite_sequence'];
+            this.db.transaction(function (tx) {
+                for (var i = 0; i < tableNames.length; i++) {
+                    spendsDataManager.executeAndShowSql(tx, "delete from " + tableNames[i] + ";")
+                }
+            });
+            return;
+        }
+        if (table == 'spends')
+        {
+            this.db.transaction(function (tx) {
+                spendsDataManager.executeAndShowSql(tx, "delete from " + table + ";")
+            });
+            return;
+        }
+        if (table == 'categories')
+        {
+            this.db.transaction(function (tx) {
+                spendsDataManager.executeAndShowSql(tx, "delete from " + table + ";")
+            });
+            return;
+        }
     },
 
     init: function () {
