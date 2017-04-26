@@ -100,7 +100,7 @@ var spendsUI = {
 
             editTemplate: function (value) {
                 this._editPicker = $("<input>");
-                spendsUI.bindDatePicker(this._editPicker,new Date(value * 1000));
+                spendsUI.bindDatePicker(this._editPicker, new Date(value * 1000));
                 return this._editPicker;
             },
 
@@ -169,14 +169,17 @@ var spendsUI = {
     },
 
     setDatepicker: function () {
-        this.bindDatePicker(this.context.find("input[name='spendDate']"),new Date())
-        this.bindDatePicker(this.context.find("input[name='spendsFromDate']"),new Date())
-        this.bindDatePicker(this.context.find("input[name='spendsToDate']"),new Date())
+        this.bindDatePicker(this.context.find("input[name='spendDate']"), new Date())
+        this.bindDatePicker(this.context.find("input[name='spendsFromDate']"), new Date())
+        this.bindDatePicker(this.context.find("input[name='spendsToDate']"), new Date())
     },
 
     showCategoryAddModal: function () {
+        //Очистка поля ввода названия
+        $("#addCategoryModal").find("input[name='newCategoryName']").val('');
         // Вызов модального окна
         $("#addCategoryModal").modal();
+
     },
 
     addCategoryFromModal: function () {
