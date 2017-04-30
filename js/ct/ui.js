@@ -73,7 +73,7 @@ var spendsUI = {
             }
 
             for (var i = 0; i < categories.length; i++) {
-                select.append($('<option value="' + categories[i].id + '">' + categories[i].categoryName + '</option>'));
+                select.append($('<option value="' + categories[i].id + '">' + categories[i].name + '</option>'));
             }
 
             spendsUI.context.find($("select[name='spendСategory'] option")).filter(function () {
@@ -143,7 +143,7 @@ var spendsUI = {
                             align: "center",
                             items: categories,
                             valueField: "id",
-                            textField: "categoryName",
+                            textField: "name",
                             type: "select"
                         },
                         {name: "description", title: "Комментарий", align: "center", type: "text"},
@@ -183,7 +183,7 @@ var spendsUI = {
         // Метод добавления категории из модального окна
         var newCategory = $("#addCategoryModal").find("input[name='newCategoryName']").val();
         if (newCategory != null) {
-            spendsDataManager.addCategory({"categoryName": newCategory});
+            spendsDataManager.addCategory({"name": newCategory});
         }
         $("#addCategoryModal").modal('hide');
         spendsUI.setCategories(newCategory);

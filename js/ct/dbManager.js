@@ -57,7 +57,7 @@ var spendsDataManager = {
                     result[i] = {
                         //TODO костыль для селекта грида
                         id: row.id.toString(),
-                        categoryName: row.name
+                        name: row.name
                     }
                 }
                 resultCallback(result);
@@ -68,9 +68,9 @@ var spendsDataManager = {
     addCategory: function (category) {
         this.db.transaction(function (tx) {
             if (category.id == null) {
-                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (name) VALUES (?)", [category.categoryName]);
+                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (name) VALUES (?)", [category.name]);
             } else {
-                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,name) VALUES (?,?)", [category.id, category.categoryName]);
+                spendsDataManager.executeAndShowSql(tx, "INSERT INTO categories (id,name) VALUES (?,?)", [category.id, category.name]);
             }
         });
     },
@@ -81,7 +81,7 @@ var spendsDataManager = {
         }
 
         this.db.transaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "UPDATE categories SET name=? WHERE id=?", [item.categoryName, item.id]);
+            spendsDataManager.executeAndShowSql(tx, "UPDATE categories SET name=? WHERE id=?", [item.name, item.id]);
         });
     },
 
