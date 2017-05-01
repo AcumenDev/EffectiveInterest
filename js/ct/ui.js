@@ -36,6 +36,14 @@ var spendsUI = {
         this.context.find("input[name='spendsToDate']").bind("change", this.getDetailedSpendsForPeriod);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
+        $("#monthForReport").datepicker({
+            format: "MM yyyy",
+            startView: "months",
+            minViewMode: "months",
+            language: "ru"
+        });
+        $("#monthForReport").datepicker("setDate", new Date());
+
     },
 
 
@@ -181,6 +189,7 @@ var spendsUI = {
         this.bindDatePicker(this.context.find("input[name='spendDate']"), new Date())
         this.bindDatePicker(this.context.find("input[name='spendsFromDate']"), new Date())
         this.bindDatePicker(this.context.find("input[name='spendsToDate']"), new Date())
+
     },
 
     showCategoryAddModal: function () {

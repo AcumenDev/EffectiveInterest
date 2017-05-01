@@ -152,7 +152,7 @@ var spendsDataManager = {
         });
     },
 
-    getSpendsForMonth: function (resultCollback) {
+    getSpendsForMonth: function (resultCallback) {
 
         this.db.readTransaction(function (tx) {
             spendsDataManager.executeAndShowSql(tx, "SELECT c.name, sum(s.sum) as total FROM spends s LEFT JOIN categories c ON s.category_id = c.id group by c.name", [], function (tx, spends) {
@@ -164,7 +164,7 @@ var spendsDataManager = {
                         total: row.total
                     }
                 }
-                resultCollback(result);
+                resultCallback(result);
             });
         });
     },
