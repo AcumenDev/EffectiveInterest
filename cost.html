@@ -38,8 +38,6 @@
   </div>
 </nav>
 
-<h3>Учет расходов</h3>
-
 <div id="section_expense_report" class="container-fluid">
     <!--Модальное окно добаления категории трат-->
     <div id="addCategoryModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -124,6 +122,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="panel-footer">
+                <h4><strong>Итого за месяц: <span id="monthTotal" class="label label-default">-</span> руб.</strong></h4>
+            </div>
         </div>
         <div class="form-group">
             <div class="form-group">
@@ -143,6 +144,9 @@
             <div class="form-group">
                 <div class="panel panel-default">
                     <div id="spendsJsGrid" class="spends-table"></div>
+                    <div class="panel-footer">
+                        <h4><strong>Итого за выбранный период: <span id="periodTotal" class="label label-default">-</span> руб.</strong></h4>
+                    </div>
                 </div>
             </div>
         </div>

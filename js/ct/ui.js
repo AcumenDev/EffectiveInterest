@@ -53,13 +53,17 @@ var spendsUI = {
             var monthReportTable = $('.monthReport-table');
             var tableBody = monthReportTable.find("#tableFormBody");
             tableBody.empty();
+            var monthTotal = 0;
             result.forEach(function (item, i, arr) {
                 var blankRow = monthReportTable.find("tr.blank").clone();
                 blankRow.removeClass('blank');
                 var tmpRow = _.template(blankRow[0].outerHTML);
                 var dataRow = tmpRow(item);
                 tableBody.prepend(dataRow);
+                monthTotal += item.total;
             });
+
+            $('#monthTotal').text(monthTotal);
         });
     },
 
@@ -151,7 +155,13 @@ var spendsUI = {
                     ],
                     noDataContent: "За выбранный период ничего не найдено...",
                     deleteConfirm: "Вы уверены?"
-                })
+                });
+
+                var periodTotal = spends.reduce(function (sum, current) {
+                    return sum + current.sum;
+                }, 0);
+
+                $('#periodTotal').text(periodTotal);
             })
         });
     },
