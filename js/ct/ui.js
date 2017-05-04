@@ -158,8 +158,8 @@ var spendsUI = {
                 });
 
                 var periodTotal = spends.reduce(function (sum, current) {
-                    return sum + current.sum;
-                }, 0);
+                    return sum + parseFloat(current.sum.toString().replace(',', '.'));
+                }, 0.0);
 
                 $('#periodTotal').text(periodTotal);
             })
@@ -210,7 +210,7 @@ var spendsUI = {
         var descriptionText = spendsUI.context.find($("input[name='spendDescription']"));
 
         var date = Date.parse(spendDate.val()) / 1000;
-        var sum = sumText.val();
+        var sum = parseFloat(sumText.val().replace(',', '.'));
         var category = categorySelect.find(":selected").val();
         var description = descriptionText.val();
 
