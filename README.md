@@ -1,3 +1,3 @@
 # Расчет эфективной процентной ставки по вкладу
 
-[Посмотреть можно здесь](http://acumendev.github.io/EffectiveInterest)
+[Посмотреть можно здесь](http://acumendev.github.io/EffectiveInterest/cost.html)
