@@ -49,21 +49,20 @@ var spendsUI = {
     },
 
     monthReport: function () {
+        var monthTotal = 0.0;
         spendsDataManager.getSpendsForMonth(function (result) {
             var monthReportTable = $('.monthReport-table');
             var tableBody = monthReportTable.find("#tableFormBody");
             tableBody.empty();
-            var monthTotal = 0;
             result.forEach(function (item, i, arr) {
                 var blankRow = monthReportTable.find("tr.blank").clone();
                 blankRow.removeClass('blank');
                 var tmpRow = _.template(blankRow[0].outerHTML);
                 var dataRow = tmpRow(item);
                 tableBody.prepend(dataRow);
-                monthTotal += item.total;
+                monthTotal += parseFloat(item.total);
             });
-
-            $('#monthTotal').text(monthTotal);
+            $('#monthTotal').text(parseFloat(monthTotal).toFixed(2));
         });
     },
 
@@ -158,10 +157,10 @@ var spendsUI = {
                 });
 
                 var periodTotal = spends.reduce(function (sum, current) {
-                    return sum + parseFloat(current.sum.toString().replace(',', '.'));
+                    return sum + current.sum;
                 }, 0.0);
 
-                $('#periodTotal').text(periodTotal);
+                $('#periodTotal').text(periodTotal.toFixed(2));
             })
         });
     },
@@ -210,7 +209,7 @@ var spendsUI = {
         var descriptionText = spendsUI.context.find($("input[name='spendDescription']"));
 
         var date = Date.parse(spendDate.val()) / 1000;
-        var sum = parseFloat(sumText.val().replace(',', '.'));
+        var sum = sumText.val();
         var category = categorySelect.find(":selected").val();
         var description = descriptionText.val();
 
@@ -230,7 +229,7 @@ var spendsUI = {
             categorySelect.css('border-color', '');
         }
 
-        if (!sum) {
+        if (!$.isNumeric(sum)) {
             sumText.css('border-color', 'red');
             isValidForm = false;
         } else {
@@ -241,7 +240,12 @@ var spendsUI = {
             return;
         }
 
-        spendsDataManager.addSpend({"date": date, "sum": sum, "categoryId": category, "description": description});
+        spendsDataManager.addSpend({
+            "date": date,
+            "sum": parseFloat(sum).toFixed(2),
+            "categoryId": category,
+            "description": description
+        });
 
         descriptionText.val('');
         sumText.val('');
