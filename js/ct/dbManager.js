@@ -32,20 +32,20 @@ var spendsDataManager = {
     },
 
     executeAndShowSql: function (tx, sql, param, callback, errorCallback) {
-            var positionParam = 0;
-            newString = sql.replace(new RegExp("\\?", 'g'), function (str, p1, p2, offset, s) {
-                positionParam++;
-                return param[positionParam - 1];
-            });
-            console.log(this.logTag + "'" + newString + "'");
+        var positionParam = 0;
+        newString = sql.replace(new RegExp("\\?", 'g'), function (str, p1, p2, offset, s) {
+            positionParam++;
+            return param[positionParam - 1];
+        });
+        console.log(this.logTag + "'" + newString + "'");
 
-            if (errorCallback == null) {
-                errorCallback = function (transaction, error) {
-                    console.error(spendsDataManager.logTag + "errorCode: " + error.code + " message: " + error.message);
-                };
-            }
+        if (errorCallback == null) {
+            errorCallback = function (transaction, error) {
+                console.error(spendsDataManager.logTag + "errorCode: " + error.code + " message: " + error.message);
+            };
+        }
 
-            tx.executeSql(sql, param, callback, errorCallback);
+        tx.executeSql(sql, param, callback, errorCallback);
     },
 
     getCategories: function (resultCallback) {
@@ -75,7 +75,7 @@ var spendsDataManager = {
         });
     },
 
-    updateCategory:function(item){
+    updateCategory: function (item) {
         if (item == null) {
             return;
         }
@@ -85,7 +85,7 @@ var spendsDataManager = {
         });
     },
 
-    deleteCategory:function(item){
+    deleteCategory: function (item) {
         if (item == null) {
             return;
         }
@@ -152,16 +152,22 @@ var spendsDataManager = {
         });
     },
 
-    getSpendsForMonth: function (resultCallback) {
+    getSpendsForMonth: function (date, resultCallback) {
+        var firstDay = 0;
+        var lastDay = 0;
+        if (!isNaN(date)) {
+            firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime() / 1000;
+            lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59).getTime() / 1000;
+        }
 
         this.db.readTransaction(function (tx) {
-            spendsDataManager.executeAndShowSql(tx, "SELECT c.name, sum(s.sum) as total FROM spends s LEFT JOIN categories c ON s.category_id = c.id group by c.name", [], function (tx, spends) {
+            spendsDataManager.executeAndShowSql(tx,"SELECT c.name, SUM(s.sum) as total FROM spends s INNER JOIN categories c ON s.category_id=c.id WHERE s.spend_date>=? AND s.spend_date<=? GROUP BY c.name", [firstDay,lastDay], function (tx, spends) {
                 var result = [];
                 for (var i = 0; i < spends.rows.length; i++) {
                     var row = spends.rows.item(i);
                     result[i] = {
                         category: row.name,
-                        total: row.total
+                        total: parseFloat(row.total).toFixed(2)
                     }
                 }
                 resultCallback(result);
@@ -217,8 +223,7 @@ var spendsDataManager = {
 
     clearDb: function (table) {
 
-        if (table === undefined)
-        {
+        if (table === undefined) {
             var tableNames = ['spends', 'categories', 'sqlite_sequence'];
             this.db.transaction(function (tx) {
                 for (var i = 0; i < tableNames.length; i++) {
@@ -227,15 +232,13 @@ var spendsDataManager = {
             });
             return;
         }
-        if (table == 'spends')
-        {
+        if (table == 'spends') {
             this.db.transaction(function (tx) {
                 spendsDataManager.executeAndShowSql(tx, "delete from " + table + ";")
             });
             return;
         }
-        if (table == 'categories')
-        {
+        if (table == 'categories') {
             this.db.transaction(function (tx) {
                 spendsDataManager.executeAndShowSql(tx, "delete from " + table + ";")
             });
