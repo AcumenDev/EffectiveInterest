@@ -143,11 +143,15 @@ var spendsUI = {
                     height: document.getElementById('spendsJsGrid').offsetHeight,
                     onItemUpdated: function (arg) {
                         spendsDataManager.updateSpend(arg.item);
-                        spendsUI.getDetailedSpendsForPeriod();
+
+                        spendsUI.calculatePeriodSpendsTotal(spends);
+
                         spendsUI.monthReport();
                     },
                     onItemDeleted: function (arg) {
                         spendsDataManager.deleteSpend(arg.item);
+
+                        spendsUI.calculatePeriodSpendsTotal(spends);
                         spendsUI.monthReport();
                     },
 
@@ -182,13 +186,17 @@ var spendsUI = {
                     pageLastText: "последняя"
                 });
 
-                var periodTotal = spends.reduce(function (sum, current) {
-                    return sum + current.sum;
-                }, 0.0);
-
-                spendsUI.context.find("span[name='periodTotal']").text(periodTotal.toFixed(2));
+                spendsUI.calculatePeriodSpendsTotal(spends);
             })
         });
+    },
+
+    calculatePeriodSpendsTotal: function (spends) {
+        var periodTotal = spends.reduce(function (sum, current) {
+            return sum + current.sum;
+        }, 0.0);
+
+        spendsUI.context.find("span[name='periodTotal']").text(periodTotal.toFixed(2));
     },
 
     bindDatePicker: function (bindToObject, value) {
