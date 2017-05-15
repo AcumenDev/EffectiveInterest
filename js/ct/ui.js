@@ -67,9 +67,9 @@ var spendsUI = {
     },
 
     monthReport: function () {
-        var selectedYearMonth= spendsUI.context.find("input[name='monthForReport']").datepicker("getDate");
+        var selectedYearMonth = spendsUI.context.find("input[name='monthForReport']").datepicker("getDate");
 
-        spendsDataManager.getSpendsForMonth(selectedYearMonth,function (result) {
+        spendsDataManager.getSpendsForMonth(selectedYearMonth, function (result) {
             var monthTotal = 0.0;
             var monthReportTable = $('.monthReport-table');
             var tableBody = monthReportTable.find("#tableFormBody");
@@ -173,7 +173,13 @@ var spendsUI = {
                         {type: "control", editButton: true, deleteButton: true}
                     ],
                     noDataContent: "За выбранный период ничего не найдено...",
-                    deleteConfirm: "Вы уверены?"
+                    deleteConfirm: "Вы уверены?",
+                    pageSize: 10,
+                    pagerFormat: "Стр:  {first} {prev} {pages} {next} {last}",
+                    pagePrevText: "<<<",
+                    pageNextText: ">>>",
+                    pageFirstText: "первая",
+                    pageLastText: "последняя"
                 });
 
                 var periodTotal = spends.reduce(function (sum, current) {

@@ -87,7 +87,7 @@
             <div class="form-group">
                 <button type="button" name="addCategoryButton" class="btn btn-small btn-success">
                     <span class="glyphicon glyphicon-plus-sign"></span>
-                    Добавить категорию
+                    Новая категория
                 </button>
                 <a class="btn btn-warning" href="categories.html" role="button">
                     <span class="glyphicon glyphicon-pencil"></span>
@@ -108,14 +108,14 @@
         <div class="panel panel-default">
             <div class="panel-heading text-center">
                 <div class="form-inline">
-                    <label>Отчет за</label>
+                    <label>Отчет за месяц :</label>
                     <div class="input-group">
                         <input type="text" name="monthForReport" class="form-control"/>
                         <span class="input-group-addon"> <i class="glyphicon glyphicon-calendar"></i> </span>
                     </div>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body spends-table">
                 <table class="table table-condensed monthReport-table">
                     <tr>
                         <th> Категория</th>
@@ -135,10 +135,11 @@
                 </h4>
             </div>
         </div>
-        <div class="form-group">
-            <div class="form-group">
+
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
                 <div class="form-inline">
-                    <label>Отчет за:</label>
+                    <label>Отчет за период :</label>
                     <div class="input-group">
                         <input type="text" name="spendsFromDate" class="form-control" placeholder="C..."/>
                         <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
@@ -150,15 +151,11 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="panel panel-default">
-                    <div id="spendsJsGrid" class="spends-table"></div>
-                    <div class="panel-footer">
-                        <h4><strong>Итого за выбранный период: <span name="periodTotal"
-                                                                     class="label label-default">-</span> руб.</strong>
-                        </h4>
-                    </div>
-                </div>
+            <div id="spendsJsGrid" class="spends-table"></div>
+            <div class="panel-footer">
+                <h4><strong>Итого за выбранный период: <span name="periodTotal"
+                                                             class="label label-default">-</span> руб.</strong>
+                </h4>
             </div>
         </div>
     </div>
