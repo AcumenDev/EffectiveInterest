@@ -29,13 +29,31 @@ var spendsUI = {
         this.context = $("#section_expense_report");
         this.setCategories();
         this.setDatepicker();
+        this.context.find("input[name='monthForReport']").datepicker({
+            format: "MM yyyy",
+            startView: "months",
+            minViewMode: "months",
+            language: "ru",
+            autoclose: true
+        });
+        this.context.find("input[name='monthForReport']").datepicker("setDate", new Date());
+        this.context.find("input[name='monthForReport']").bind("change", this.monthReport);
         this.getDetailedSpendsForPeriod();
-        this.monthReport();
+        //this.monthReport();
         this.context.find("button[name='addCategoryButton']").bind("click", this.showCategoryAddModal);
         this.context.find("input[name='spendsFromDate']").bind("change", this.getDetailedSpendsForPeriod);
         this.context.find("input[name='spendsToDate']").bind("change", this.getDetailedSpendsForPeriod);
         $("#addCategoryModal").find("button[name='addCategory']").bind("click", this.addCategoryFromModal);
         this.context.find("button[name='addSpendButton']").bind("click", this.addSpend);
+        this.context.find("input[name='monthForReport']").datepicker({
+            format: "MM yyyy",
+            startView: "months",
+            minViewMode: "months",
+            language: "ru",
+            autoclose: true
+        });
+        this.context.find("input[name='monthForReport']").datepicker("setDate", new Date());
+
     },
 
 
@@ -49,8 +67,10 @@ var spendsUI = {
     },
 
     monthReport: function () {
-        var monthTotal = 0.0;
-        spendsDataManager.getSpendsForMonth(function (result) {
+        var selectedYearMonth = spendsUI.context.find("input[name='monthForReport']").datepicker("getDate");
+
+        spendsDataManager.getSpendsForMonth(selectedYearMonth, function (result) {
+            var monthTotal = 0.0;
             var monthReportTable = $('.monthReport-table');
             var tableBody = monthReportTable.find("#tableFormBody");
             tableBody.empty();
@@ -62,7 +82,7 @@ var spendsUI = {
                 tableBody.prepend(dataRow);
                 monthTotal += parseFloat(item.total);
             });
-            $('#monthTotal').text(parseFloat(monthTotal).toFixed(2));
+            spendsUI.context.find("span[name='monthTotal']").text(parseFloat(monthTotal).toFixed(2));
         });
     },
 
@@ -153,14 +173,20 @@ var spendsUI = {
                         {type: "control", editButton: true, deleteButton: true}
                     ],
                     noDataContent: "За выбранный период ничего не найдено...",
-                    deleteConfirm: "Вы уверены?"
+                    deleteConfirm: "Вы уверены?",
+                    pageSize: 10,
+                    pagerFormat: "Стр:  {first} {prev} {pages} {next} {last}",
+                    pagePrevText: "<<<",
+                    pageNextText: ">>>",
+                    pageFirstText: "первая",
+                    pageLastText: "последняя"
                 });
 
                 var periodTotal = spends.reduce(function (sum, current) {
                     return sum + current.sum;
                 }, 0.0);
 
-                $('#periodTotal').text(periodTotal.toFixed(2));
+                spendsUI.context.find("span[name='periodTotal']").text(periodTotal.toFixed(2));
             })
         });
     },
@@ -181,6 +207,7 @@ var spendsUI = {
         this.bindDatePicker(this.context.find("input[name='spendDate']"), new Date())
         this.bindDatePicker(this.context.find("input[name='spendsFromDate']"), new Date())
         this.bindDatePicker(this.context.find("input[name='spendsToDate']"), new Date())
+
     },
 
     showCategoryAddModal: function () {

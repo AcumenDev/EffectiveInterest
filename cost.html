@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css"
           href="libs/bootstrap-datepicker-1.4.0-dist/css/bootstrap-datepicker3.min.css">
     <link rel="stylesheet" type="text/css" href="css/cost.css">
-    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid.min.css" />
-    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid.min.css"/>
+    <link rel="stylesheet" type="text/css" href="libs/jsgrid-1.4.0/jsgrid-theme.min.css"/>
 
     <script src="libs/jquery-2.1.4.min.js"></script>
     <script src="libs/jsgrid-1.4.0/jsgrid.js"></script>
@@ -24,18 +24,18 @@
 <body>
 
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="index.html">Кабинет инвестора</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Кабинет инвестора</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="deposit.html">Депозитный калькулятор</a></li>
+            <li class="active"><a href="cost.html">Учет расходов</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="settings.html"><span class="glyphicon glyphicon-option-vertical"></span> Настройки</a></li>
+        </ul>
     </div>
-    <ul class="nav navbar-nav">
-        <li><a href="deposit.html">Депозитный калькулятор</a></li>
-        <li class="active"><a href="cost.html">Учет расходов</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-    <li><a href="settings.html"><span class="glyphicon glyphicon-option-vertical"></span> Настройки</a></li>
-    </ul>
-  </div>
 </nav>
 
 <div id="section_expense_report" class="container-fluid">
@@ -86,8 +86,8 @@
             </div>
             <div class="form-group">
                 <button type="button" name="addCategoryButton" class="btn btn-small btn-success">
-				<span class="glyphicon glyphicon-plus-sign"></span>
-				Добавить категорию
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Новая категория
                 </button>
                 <a class="btn btn-warning" href="categories.html" role="button">
                     <span class="glyphicon glyphicon-pencil"></span>
@@ -100,14 +100,22 @@
             <input type="text" name="spendDescription" class="form-control" placeholder="Описание...">
         </div>
         <button type="button" name="addSpendButton" class="btn btn-success">
-			<span class="glyphicon glyphicon-ok-circle"></span>
-			Добавить
-		</button>
+            <span class="glyphicon glyphicon-ok-circle"></span>
+            Добавить
+        </button>
     </div>
     <div class="rightcolumn">
         <div class="panel panel-default">
-            <div class="panel-heading text-center">Отчет за месяц</div>
-            <div class="panel-body">
+            <div class="panel-heading text-center">
+                <div class="form-inline">
+                    <label>Отчет за месяц :</label>
+                    <div class="input-group">
+                        <input type="text" name="monthForReport" class="form-control"/>
+                        <span class="input-group-addon"> <i class="glyphicon glyphicon-calendar"></i> </span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body spends-table">
                 <table class="table table-condensed monthReport-table">
                     <tr>
                         <th> Категория</th>
@@ -123,13 +131,15 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <h4><strong>Итого за месяц: <span id="monthTotal" class="label label-default">-</span> руб.</strong></h4>
+                <h4><strong>Итого за месяц: <span name="monthTotal" class="label label-default">-</span> руб.</strong>
+                </h4>
             </div>
         </div>
-        <div class="form-group">
-            <div class="form-group">
+
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
                 <div class="form-inline">
-                    <label>Отчет за:</label>
+                    <label>Отчет за период :</label>
                     <div class="input-group">
                         <input type="text" name="spendsFromDate" class="form-control" placeholder="C..."/>
                         <span class="input-group-addon"> <i class="glyphicon glyphicon-time"></i> </span>
@@ -141,13 +151,11 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="panel panel-default">
-                    <div id="spendsJsGrid" class="spends-table"></div>
-                    <div class="panel-footer">
-                        <h4><strong>Итого за выбранный период: <span id="periodTotal" class="label label-default">-</span> руб.</strong></h4>
-                    </div>
-                </div>
+            <div id="spendsJsGrid" class="spends-table"></div>
+            <div class="panel-footer">
+                <h4><strong>Итого за выбранный период: <span name="periodTotal"
+                                                             class="label label-default">-</span> руб.</strong>
+                </h4>
             </div>
         </div>
     </div>

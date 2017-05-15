@@ -8,7 +8,6 @@
     width: 73%;
     float: right;
     padding-left: 10px;
-    margin-top: 10px;
 }
 
 .monthReport-table tr.blank {
@@ -16,6 +15,7 @@
 }
 
 .spends-table {
-     width: 100%;
-     height: 250px;
+    width: 100%;
+    min-height: 425px;
 }
+
